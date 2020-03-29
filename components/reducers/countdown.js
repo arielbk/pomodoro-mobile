@@ -1,8 +1,8 @@
 export const initialState = {
   // focus time length
-  focusSpan: 1500000,
+  focusSpan: 5000,
   // break time length
-  breakSpan: 300000,
+  breakSpan: 3000,
   // current mode (focus or break)
   currentMode: 'focus',
   // whether the timer is running
@@ -10,41 +10,44 @@ export const initialState = {
   // time when timer last began
   startTime: null,
   // remaining time displayed
-  remainingTime: 1500000,
+  remainingTime: 5000,
+  // storedTime
+  storedTime: 0,
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'set_time':
-      return {
-        remainingTime: action.payload,
-        ...state,
-      }
     case 'start':
       return {
+        ...state,
         isRunning: true,
         startTime: action.payload,
-        ...state,
       }
     case 'pause':
       return {
+        ...state,
         isRunning: false,
-        startTime: null,
-        ...state,
       }
-    case 'resume':
-      return {
-        isRunning: true,
-        startTime: action.payload,
+    case 'set_remaining':
+      if (action.payload > 0) return {
         ...state,
+        remainingTime: action.payload,
       }
+    //! if remaining time hits 0 finish fires
     case 'finish':
       return {
+        ...state,
         isRunning: false,
         startTime: null,
-        remainingTime: state.currentMode === 'focus' ? state.breakSpan : state.focusSpan,
-        currentMode: state.currentMode === 'focus' ? 'break' : 'focus',
+        remainingTime: state.currentMode === 'focus'
+          ? state.breakSpan
+          : state.focusSpan,
+        currentMode: state.currentMode === 'focus'
+          ? 'break'
+          : 'focus',
       }
+    case 'reset':
+      return {...initialState}
     default:
       throw new Error();
   }
