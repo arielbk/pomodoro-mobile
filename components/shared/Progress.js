@@ -1,16 +1,54 @@
-import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Dimensions, Animated, Easing } from 'react-native';
 const screen = Dimensions.get('window');
 
-export default function Progress({ percentage }) {
-  const percentStyling = {
-    width: `${percentage}%`,
-  };
+export default function Progress({ isRunning, remainingTime, totalTime }) {
+  const [widthAnim] = useState(new Animated.Value(0)); // initial width of 0
 
+  useEffect(() => {
+    if (isRunning) {
+      Animated.timing(
+        widthAnim,
+        {
+          toValue: 1,
+          easing: Easing.linear,
+          duration: remainingTime,
+        }
+        ).start();
+      } else if (remainingTime === totalTime) {
+        Animated.timing(
+          widthAnim,
+          {
+            toValue: 0,
+            easing: Easing.linear,
+            duration: 500,
+          }
+          ).start();
+      } else {
+        Animated.timing(
+          widthAnim,
+          {
+            toValue: (totalTime - remainingTime) / totalTime || 0,
+            easing: Easing.linear,
+            duration: 500,
+          }
+      ).start();
+    }
+  }, [isRunning]);
+
+  console.log(widthAnim)
   return (
     <View style={styles.container}>
       <View style={styles.outerBar}>
-        <View style={[styles.innerBar, percentStyling]} />
+        <Animated.View
+          style={{
+            ...styles.innerBar,
+            width: widthAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['0%', '100%'],
+            })
+          }}
+        />
       </View>
     </View>
   )
@@ -24,7 +62,7 @@ const styles = StyleSheet.create({
   },
   outerBar: {
     borderRadius: 16,
-    backgroundColor: '#676767',
+    backgroundColor: '#d9d9d9',
     height: 16,
     width: screen.width - 80,
   },

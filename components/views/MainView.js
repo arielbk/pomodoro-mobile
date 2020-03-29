@@ -1,6 +1,7 @@
 import React, { useReducer, useRef, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Dimensions, Platform } from 'react-native';
 import { Audio } from 'expo-av';
+import { Ionicons } from '@expo/vector-icons';
 
 import reducer, { initialState } from '../reducers/countdown';
 import Timer from '../shared/Timer';
@@ -27,25 +28,22 @@ export default function MainView() {
       clearInterval(interval.current);
     }
   }, [state.isRunning])
-
+  
   useEffect(() => {
     if (state.isFinished) {
       try {
-        endSound.playAsync();
+        endSound.replayAsync();
       } catch (error) {
         console.error(error);
       }
     }
   }, [state.isFinished]);
 
-  const mainAction = state.isRunning
-    ? ({ type: 'pause', payload: new Date().getTime()})
-    : ({ type: 'start', payload: new Date().getTime()})
-
   const totalTime = state.currentMode === 'focus'
     ? state.focusSpan
     : state.breakSpan;
-  const percentage = Math.floor((totalTime - state.remainingTime) / totalTime * 100)
+
+  const progress = (totalTime - state.remainingTime) / totalTime;
 
   return (
     <>
@@ -55,7 +53,7 @@ export default function MainView() {
         <View style={styles.mainContent}>
           <Text style={styles.projectText}>Project name</Text>
           <Timer millis={state.remainingTime} />
-          <Progress percentage={percentage} />
+          <Progress progress={progress} totalTime={totalTime} remainingTime={state.remainingTime} isRunning={state.isRunning} />
           <Text style={styles.currentMode}>{state.currentMode}</Text>
         </View>
 
@@ -65,7 +63,13 @@ export default function MainView() {
             onPress={() => dispatch({type: 'reset'})}
           >
             <View style={styles.button}>
-              <Text>reset</Text>
+              <Text>
+                {
+                  Platform.OS === 'android'
+                    ? <Ionicons name="md-refresh" color="#676767" size={36} />
+                    : <Ionicons name="ios-refresh" color="#676767" size={36} />
+                }
+              </Text>
             </View>
           </TouchableOpacity>
 
@@ -80,7 +84,15 @@ export default function MainView() {
           }>
             <View style={styles.button}>
               <Text>
-                {mainAction.type}
+                {
+                  state.isRunning
+                    ? Platform.OS === 'android'
+                      ? <Ionicons name="md-pause" color="#676767" size={36} />
+                      : <Ionicons name="ios-pause" color="#676767" size={36} />
+                    : Platform.OS === 'android'
+                      ? <Ionicons name="md-play" color="#676767" size={36} />
+                      : <Ionicons name="ios-play" color="#676767" size={36} />
+                }
               </Text>
             </View>
           </TouchableOpacity>
