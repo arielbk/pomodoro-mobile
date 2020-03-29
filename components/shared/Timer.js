@@ -17,7 +17,10 @@ export default function Timer({ millis }) {
   return (
     <View style={styles.container}>
       <Text style={styles.timerText}>
-        {`${minutes}:${seconds}.${centiseconds}`}
+        {`${minutes}:${seconds}`}
+      </Text>
+      <Text style={[styles.centisecondText]}>
+        {`.${centiseconds}`}
       </Text>
     </View>
   )
@@ -27,10 +30,17 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
   timerText: {
     fontSize: 92,
     color: '#676767',
+    fontVariant: ['tabular-nums'],
+  },
+  centisecondText: {
+    fontSize: 36,
+    color: '#d7d7d7',
+    marginLeft: 5,
     fontVariant: ['tabular-nums'],
   }
 });

@@ -1,8 +1,8 @@
 export const initialState = {
   // focus time length
-  focusSpan: 5000,
+  focusSpan: 10000,
   // break time length
-  breakSpan: 3000,
+  breakSpan: 5000,
   // current mode (focus or break)
   currentMode: 'focus',
   // whether the timer is running
@@ -10,9 +10,9 @@ export const initialState = {
   // time when timer last began
   startTime: null,
   // remaining time displayed
-  remainingTime: 5000,
-  // storedTime
-  storedTime: 0,
+  remainingTime: 10000,
+  // 
+  isFinished: false,
 };
 
 const reducer = (state, action) => {
@@ -22,17 +22,20 @@ const reducer = (state, action) => {
         ...state,
         isRunning: true,
         startTime: action.payload,
+        modeCompleted: null,
+        isFinished: false,
       }
     case 'pause':
       return {
         ...state,
         isRunning: false,
+        startTime: null,
       }
     case 'set_remaining':
       if (action.payload > 0) return {
         ...state,
         remainingTime: action.payload,
-      }
+    }
     //! if remaining time hits 0 finish fires
     case 'finish':
       return {
@@ -40,11 +43,12 @@ const reducer = (state, action) => {
         isRunning: false,
         startTime: null,
         remainingTime: state.currentMode === 'focus'
-          ? state.breakSpan
-          : state.focusSpan,
+        ? state.breakSpan
+        : state.focusSpan,
         currentMode: state.currentMode === 'focus'
-          ? 'break'
-          : 'focus',
+        ? 'break'
+        : 'focus',
+        isFinished: true,
       }
     case 'reset':
       return {...initialState}

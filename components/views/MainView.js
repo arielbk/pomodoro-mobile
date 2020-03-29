@@ -1,11 +1,14 @@
 import React, { useReducer, useRef, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, StatusBar, Dimensions } from 'react-native';
+import { Audio } from 'expo-av';
 
 import reducer, { initialState } from '../reducers/countdown';
 import Timer from '../shared/Timer';
 import Progress from '../shared/Progress';
 
 const screen = Dimensions.get('window');
+const endSound = new Audio.Sound();
+endSound.loadAsync(require('../../assets/sounds/levelup.mp3'));
 
 export default function MainView() {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -13,15 +16,27 @@ export default function MainView() {
 
   useEffect(() => {
     if (state.isRunning) {
-      interval.current = setInterval(() =>
+      interval.current = setInterval(() => {
+        const timeElapsed = new Date().getTime() - state.startTime;
         dispatch({
           type: 'set_remaining',
-          payload: state.remainingTime - (new Date().getTime() - state.startTime),
-        }), 30);
+          payload: state.remainingTime - timeElapsed,
+        });
+      }, 30)
     } else {
       clearInterval(interval.current);
     }
   }, [state.isRunning])
+
+  useEffect(() => {
+    if (state.isFinished) {
+      try {
+        endSound.playAsync();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [state.isFinished]);
 
   const mainAction = state.isRunning
     ? ({ type: 'pause', payload: new Date().getTime()})
@@ -31,6 +46,7 @@ export default function MainView() {
     ? state.focusSpan
     : state.breakSpan;
   const percentage = Math.floor((totalTime - state.remainingTime) / totalTime * 100)
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -54,8 +70,14 @@ export default function MainView() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => dispatch(mainAction)}
-          >
+            onPress={() => {
+              const now = new Date().getTime();
+              dispatch({
+                type: state.isRunning ? 'pause' : 'start',
+                payload: now,
+              });
+            }
+          }>
             <View style={styles.button}>
               <Text>
                 {mainAction.type}
@@ -84,7 +106,7 @@ const styles = StyleSheet.create({
   },
   footerContent: {
     width: screen.width - 80,
-    height: 140,
+    height: 180,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -104,13 +126,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   buttonContainer: {
-    borderRadius: 65,
+    borderRadius: 75,
   },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 65,
-    height: 65,
+    width: 75,
+    height: 75,
     backgroundColor: '#fff',
     borderRadius: 65,
     elevation: 4,
