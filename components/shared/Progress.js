@@ -34,9 +34,18 @@ export default function Progress({ isRunning, remainingTime, totalTime }) {
           }
       ).start();
     }
-  }, [isRunning]);
+    if (!isRunning && totalTime === remainingTime) {
+      Animated.timing(
+        widthAnim,
+        {
+          toValue: 0,
+          easing: Easing.linear,
+          duration: 500,
+        }
+      ).start();
+    }
+  }, [isRunning, remainingTime]);
 
-  console.log(widthAnim)
   return (
     <View style={styles.container}>
       <View style={styles.outerBar}>
