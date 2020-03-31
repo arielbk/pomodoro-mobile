@@ -53,15 +53,18 @@ const reducer = (state, action) => {
         isFinished: true,
       }
     case 'reset':
-      return {...initialState}
+      return {...action.payload}
     default:
       throw new Error();
   }
 }
 
 // todo: this should take in a settings object
-const usePomodoroTimer = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const usePomodoroTimer = ({ focusSpan = 1500000, breakSpan = 300000 }) => {
+  const [state, dispatch] = useReducer(
+    reducer,
+    { ...initialState, focusSpan, breakSpan, remainingTime: focusSpan },
+  );
   const interval = useRef();
 
   useEffect(() => {
@@ -91,7 +94,10 @@ const usePomodoroTimer = () => {
   };
 
   const reset = () => {
-    dispatch({ type: 'reset'});
+    dispatch({
+      type: 'reset', 
+      payload: { ...initialState, focusSpan, breakSpan, remainingTime: focusSpan }
+    });
   };
 
   return {
