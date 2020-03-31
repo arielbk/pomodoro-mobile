@@ -1,50 +1,21 @@
 import React, { useReducer, useRef, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Dimensions, Platform, AsyncStorage } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Dimensions, Platform } from 'react-native';
 import { Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
 
 import reducer, { initialState } from '../reducers/countdown';
 import Timer from '../shared/Timer';
 import Progress from '../shared/Progress';
+import usePomodoroCount from '../utilities/usePomodoroCount';
 
 const screen = Dimensions.get('window');
 const endSound = new Audio.Sound();
 endSound.loadAsync(require('../../assets/sounds/levelup.mp3'));
 
-const dateNow = () => {
-  const now = new Date();
-  return `${now.getDate()}-${now.getMonth()}-${now.getFullYear()}`;
-}
-
 export default function MainView() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const interval = useRef();
-
-  // load stored pomodoro count
-  const loadStoredCount = async () => {
-    const storedCount = await AsyncStorage.getItem('pomodoroCount');
-    const parsedCount = JSON.parse(storedCount);
-    if (parsedCount) dispatch({
-      type: 'set_pomodoro_count',
-      payload: Number(parsedCount.count)
-    });
-  }
-
-  useEffect(() => {
-    loadStoredCount();
-  }, [])
-
-  useEffect(() => {
-    try {
-      const toSave = {
-        count: state.pomodoroCount,
-        date: dateNow(),
-      }
-      AsyncStorage.setItem('pomodoroCount', JSON.stringify(toSave));
-    } catch (error) {
-      console.error(error);
-    }
-  }, [state.pomodoroCount]);
+  const [pomodoroCount, incrementPomodoro] = usePomodoroCount();
 
   useEffect(() => {
     if (state.isRunning) {
@@ -62,6 +33,9 @@ export default function MainView() {
   
   useEffect(() => {
     if (state.isFinished) {
+      // if focus period has just finished
+      if (state.currentMode === 'break') incrementPomodoro();
+      // play finishing sound
       try {
         endSound.replayAsync();
       } catch (error) {
@@ -73,8 +47,6 @@ export default function MainView() {
   const totalTime = state.currentMode === 'focus'
     ? state.focusSpan
     : state.breakSpan;
-
-  const progress = (totalTime - state.remainingTime) / totalTime;
 
   return (
     <>
@@ -92,7 +64,7 @@ export default function MainView() {
           </View>
           <Text style={styles.projectText}>Project name</Text>
           <Timer millis={state.remainingTime} />
-          <Progress progress={progress} totalTime={totalTime} remainingTime={state.remainingTime} isRunning={state.isRunning} />
+          <Progress totalTime={totalTime} remainingTime={state.remainingTime} isRunning={state.isRunning} />
           <Text style={styles.currentMode}>{state.currentMode}</Text>
         </View>
 
@@ -113,7 +85,7 @@ export default function MainView() {
           </TouchableOpacity>
 
           <Text style={styles.pomodoroCount}>
-            {state.pomodoroCount} / 8
+            {pomodoroCount} / 8
           </Text>
 
           <TouchableOpacity
