@@ -1,8 +1,8 @@
 export const initialState = {
   // focus time length
-  focusSpan: 10000,
+  focusSpan: 1500,
   // break time length
-  breakSpan: 5000,
+  breakSpan: 300,
   // current mode (focus or break)
   currentMode: 'focus',
   // whether the timer is running
@@ -10,9 +10,12 @@ export const initialState = {
   // time when timer last began
   startTime: null,
   // remaining time displayed
-  remainingTime: 10000,
-  // 
+  remainingTime: 1500,
+  // flag becomes true when timer mode finishes
   isFinished: false,
+
+  // count the number of completed pomodoros
+  pomodoroCount: 0,
 };
 
 const reducer = (state, action) => {
@@ -49,6 +52,14 @@ const reducer = (state, action) => {
         ? 'break'
         : 'focus',
         isFinished: true,
+        pomodoroCount: state.currentMode === 'focus'
+          ? state.pomodoroCount + 1
+          : state.pomodoroCount,
+      }
+    case 'set_pomodoro_count':
+      return {
+        ...state,
+        pomodoroCount: action.payload,
       }
     case 'reset':
       return {...initialState}

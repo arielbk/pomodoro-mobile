@@ -1,5 +1,5 @@
 import React, { useReducer, useRef, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Dimensions, Platform } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Dimensions, Platform, AsyncStorage } from 'react-native';
 import { Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -11,9 +11,40 @@ const screen = Dimensions.get('window');
 const endSound = new Audio.Sound();
 endSound.loadAsync(require('../../assets/sounds/levelup.mp3'));
 
+const dateNow = () => {
+  const now = new Date();
+  return `${now.getDate()}-${now.getMonth()}-${now.getFullYear()}`;
+}
+
 export default function MainView() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const interval = useRef();
+
+  // load stored pomodoro count
+  const loadStoredCount = async () => {
+    const storedCount = await AsyncStorage.getItem('pomodoroCount');
+    const parsedCount = JSON.parse(storedCount);
+    if (parsedCount) dispatch({
+      type: 'set_pomodoro_count',
+      payload: Number(parsedCount.count)
+    });
+  }
+
+  useEffect(() => {
+    loadStoredCount();
+  }, [])
+
+  useEffect(() => {
+    try {
+      const toSave = {
+        count: state.pomodoroCount,
+        date: dateNow(),
+      }
+      AsyncStorage.setItem('pomodoroCount', JSON.stringify(toSave));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [state.pomodoroCount]);
 
   useEffect(() => {
     if (state.isRunning) {
@@ -51,6 +82,14 @@ export default function MainView() {
       <View style={styles.container}>
 
         <View style={styles.mainContent}>
+          <View style={styles.topIcons}>
+            <TouchableOpacity onPress={() => console.log('open menu')}>
+              <Ionicons name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'} color="#d9d9d9" size={40} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('open settings')}>
+              <Ionicons name={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'} color="#d9d9d9" size={40} />
+            </TouchableOpacity>
+          </View>
           <Text style={styles.projectText}>Project name</Text>
           <Timer millis={state.remainingTime} />
           <Progress progress={progress} totalTime={totalTime} remainingTime={state.remainingTime} isRunning={state.isRunning} />
@@ -72,6 +111,10 @@ export default function MainView() {
               </Text>
             </View>
           </TouchableOpacity>
+
+          <Text style={styles.pomodoroCount}>
+            {state.pomodoroCount} / 8
+          </Text>
 
           <TouchableOpacity
             onPress={() => {
@@ -114,14 +157,20 @@ const styles = StyleSheet.create({
   mainContent: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 30,
+    marginTop: 80,
+  },
+  topIcons: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: screen.width - 80,
   },
   footerContent: {
     width: screen.width - 80,
-    height: 180,
+    height: 130,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     // backgroundColor: '#eee',
   },
   projectText: {
@@ -149,8 +198,14 @@ const styles = StyleSheet.create({
     borderRadius: 65,
     elevation: 4,
     shadowOffset: { width: 0, height: 0 },
-    shadowColor: 'rgb(49, 66, 72)',
-    shadowOpacity: 0.25,
+    shadowColor: '#6F86B4',
+    shadowOpacity: 0.125,
     shadowRadius: 10,
+  },
+  pomodoroCount: {
+    color: '#adadad',
+    fontSize: 28,
+    fontWeight: '200',
+    marginVertical: 20,
   }
 });
