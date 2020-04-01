@@ -1,10 +1,13 @@
 import { useReducer, useEffect, useRef } from 'react';
 
 export const initialState = {
+
+  // todo: these should come from settings
   // focus time length
   focusSpan: 1500,
   // break time length
   breakSpan: 300,
+
   // current mode (focus or break)
   currentMode: 'focus',
   // whether the timer is running
@@ -24,7 +27,6 @@ const reducer = (state, action) => {
         ...state,
         isRunning: true,
         startTime: action.payload,
-        modeCompleted: null,
         isFinished: false,
       }
     case 'pause':

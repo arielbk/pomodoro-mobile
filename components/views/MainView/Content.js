@@ -6,28 +6,35 @@ import Progress from '../../shared/Progress';
 
 const screen = Dimensions.get('window');
 
-const Content = ({timer}) => (
-  <View style={styles.mainContent}>
-  <View style={styles.topIcons}>
-    <TouchableOpacity onPress={() => console.log('open menu')}>
-      <Ionicons name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'} color="#d9d9d9" size={40} />
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => console.log('open settings')}>
-      <Ionicons name={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'} color="#d9d9d9" size={40} />
-    </TouchableOpacity>
+const Content = ({timer, navigation}) => (
+  <View style={styles.container}>
+    <View style={styles.mainContent}>
+    <View style={styles.topIcons}>
+      <TouchableOpacity onPress={() => console.log('open menu')}>
+        <Ionicons name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'} color="#d9d9d9" size={40} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+        <Ionicons name={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'} color="#d9d9d9" size={40} />
+      </TouchableOpacity>
+    </View>
+    <Text style={styles.projectText}>Project name</Text>
+    <Timer millis={timer.remainingTime} />
+    <Progress totalTime={timer.totalTime} remainingTime={timer.remainingTime} isRunning={timer.isRunning} />
+    <Text style={styles.currentMode}>{timer.currentMode}</Text>
   </View>
-  <Text style={styles.projectText}>Project name</Text>
-  <Timer millis={timer.remainingTime} />
-  <Progress totalTime={timer.totalTime} remainingTime={timer.remainingTime} isRunning={timer.isRunning} />
-  <Text style={styles.currentMode}>{timer.currentMode}</Text>
 </View>
 );
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   mainContent: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 80,
+    marginTop: 20,
   },
   topIcons: {
     flexDirection: "row",

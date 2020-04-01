@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Audio } from 'expo-av';
 
 import usePomodoroCount from '../../utilities/usePomodoroCount';
@@ -11,7 +11,7 @@ import Footer from './Footer';
 const endSound = new Audio.Sound();
 endSound.loadAsync(require('../../../assets/sounds/levelup.mp3'));
 
-export default function MainView() {
+export default function MainView({navigation}) {
   const [pomodoroCount, incrementPomodoro] = usePomodoroCount();
   const timer = usePomodoroTimer({});
   
@@ -31,10 +31,10 @@ export default function MainView() {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.container}>
-      <Content timer={timer} />
-      <Footer pomodoroCount={pomodoroCount} timer={timer} />
-      </View>
+      <SafeAreaView style={styles.container}>
+        <Content timer={timer} navigation={navigation} />
+        <Footer pomodoroCount={pomodoroCount} timer={timer} />
+      </SafeAreaView>
     </>
   );
 }
