@@ -1,13 +1,6 @@
 import { useReducer, useEffect, useRef } from 'react';
 
 export const initialState = {
-
-  // todo: these should come from settings
-  // focus time length
-  focusSpan: 1500,
-  // break time length
-  breakSpan: 300,
-
   // current mode (focus or break)
   currentMode: 'focus',
   // whether the timer is running
@@ -56,16 +49,34 @@ const reducer = (state, action) => {
       }
     case 'reset':
       return {...action.payload}
+    case 'change_settings':
+      if (
+        (state.currentMode === 'break' && state.remainingTime === state.breakSpan) ||
+        (state.currentMode === 'focus' && state.remainingTime === state.focusSpan)
+      )
+        return {
+          ...state,
+          focusSpan: action.payload.focusSpan,
+          breakSpan: action.payload.breakSpan,
+          longBreakSpan: action.payload.longBreakSpan,
+          remainingTime: state.currentMode === 'focus' ? action.payload.focusSpan : breakSpan,
+        }
+      return {
+        ...state,
+        focusSpan: action.payload.focusSpan,
+        breakSpan: action.payload.breakSpan,
+        longBreakSpan: action.payload.longBreakSpan,
+      }
     default:
       throw new Error();
   }
 }
 
 // todo: this should take in a settings object
-const usePomodoroTimer = ({ focusSpan = 1500000, breakSpan = 300000 }) => {
+const usePomodoroTimer = ({ focusSpan, breakSpan, longBreakSpan }) => {
   const [state, dispatch] = useReducer(
     reducer,
-    { ...initialState, focusSpan, breakSpan, remainingTime: focusSpan },
+    { ...initialState, focusSpan, breakSpan, longBreakSpan, remainingTime: focusSpan },
   );
   const interval = useRef();
 
@@ -98,15 +109,28 @@ const usePomodoroTimer = ({ focusSpan = 1500000, breakSpan = 300000 }) => {
   const reset = () => {
     dispatch({
       type: 'reset', 
-      payload: { ...initialState, focusSpan, breakSpan, remainingTime: focusSpan }
+      payload: {
+        ...initialState,
+        focusSpan,
+        breakSpan,
+        remainingTime: focusSpan
+      }
     });
   };
+
+  const changeSettings = settings => {
+    dispatch({
+      type: 'change_settings',
+      payload: settings,
+    });
+  }
 
   return {
     ...state,
     totalTime,
     playPause,
     reset,
+    changeSettings,
   }
 }
 

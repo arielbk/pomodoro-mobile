@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Audio } from 'expo-av';
+import {SettingsContext} from '../../utilities/settingsContext'
 
 import usePomodoroCount from '../../utilities/usePomodoroCount';
 import usePomodoroTimer from '../../utilities/usePomodoroTimer';
@@ -13,8 +14,14 @@ endSound.loadAsync(require('../../../assets/sounds/levelup.mp3'));
 
 export default function MainView({navigation}) {
   const [pomodoroCount, incrementPomodoro] = usePomodoroCount();
-  const timer = usePomodoroTimer({});
-  
+  const settings = useContext(SettingsContext);
+  const timer = usePomodoroTimer(settings);
+
+  // send latest settings to the timer component
+  useEffect(() => {
+    timer.changeSettings(settings);
+  }, [settings.focusSpan, settings.breakSpan, settings.longBreakSpan])
+
   useEffect(() => {
     if (timer.isFinished) {
       // if focus period has just finished
