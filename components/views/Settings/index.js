@@ -41,6 +41,7 @@ const Settings = ({navigation}) => {
             onValueChange={val => console.log(val)}
             onValueChange={val => setFocusSpan(Number(val * 1000 * 60))}
           >
+            <Picker.Item label="0.1" value="0.1" />
             <Picker.Item label="5" value="5" />
             <Picker.Item label="10" value="10" />
             <Picker.Item label="15" value="15" />
@@ -61,6 +62,7 @@ const Settings = ({navigation}) => {
             }}
             onValueChange={val => setBreakSpan(Number(val * 1000 * 60))}
           >
+            <Picker.Item label="0.1" value="0.1" />
             <Picker.Item label="5" value="5" />
             <Picker.Item label="10" value="10" />
             <Picker.Item label="15" value="15" />
@@ -79,8 +81,9 @@ const Settings = ({navigation}) => {
               width: screen.width-160,
               marginBottom: 40,
             }}
-            onValueChange={val => setBreakSpan(Number(val * 1000 * 60))}
+            onValueChange={val => setLongBreakSpan(Number(val * 1000 * 60))}
           >
+            <Picker.Item label="0.1" value="0.1" />
             <Picker.Item label="5" value="5" />
             <Picker.Item label="10" value="10" />
             <Picker.Item label="15" value="15" />

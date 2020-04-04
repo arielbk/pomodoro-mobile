@@ -35,6 +35,15 @@ export default function MainView({navigation}) {
     }
   }, [timer.isFinished]);
 
+  useEffect(() => {
+    console.log(pomodoroCount);
+    console.log(settings.longBreakEvery);
+    console.log(pomodoroCount % settings.longBreakEvery);
+    if (pomodoroCount % settings.longBreakEvery === 0) {
+      timer.setLongBreak();
+    }
+  }, [pomodoroCount]);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />

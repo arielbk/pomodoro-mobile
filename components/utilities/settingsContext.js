@@ -1,34 +1,27 @@
 import React, { createContext, useState } from 'react'
 
-const defaultValues = {
-  // focus time length
-  focusSpan: 1500000,
-  // break time length
-  breakSpan: 300000,
-  // long break time length
-  longBreakSpan: 900000,
-
-  // does a context require object fields to already exist?
-  setFocusSpan: () => null,
-  setBreakSpan: () => null,
-}
-
-export const SettingsContext = createContext(defaultValues);
+export const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
-  const [focusSpan, setFocusSpan] = useState(defaultValues.focusSpan);
-  const [breakSpan, setBreakSpan] = useState(defaultValues.breakSpan);
-  const [longBreakSpan, setLongBreakSpan] = useState(defaultValues.longBreakSpan);
+  // focus time length
+  const [focusSpan, setFocusSpan] = useState(1500000);
+  // break time length
+  const [breakSpan, setBreakSpan] = useState(300000);
+  // long break time length
+  const [longBreakSpan, setLongBreakSpan] = useState(900000);
+  // long break after every _n_ pomodoros
+  const [longBreakEvery, setLongBreakEvery] = useState(4);
 
   return (
     <SettingsContext.Provider value={{
-      ...defaultValues,
       focusSpan,
-      breakSpan,
-      longBreakSpan,
       setFocusSpan,
+      breakSpan,
       setBreakSpan,
+      longBreakSpan,
       setLongBreakSpan,
+      longBreakEvery,
+      setLongBreakEvery,
     }}>
       {children}
     </SettingsContext.Provider>

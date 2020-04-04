@@ -50,22 +50,37 @@ const reducer = (state, action) => {
     case 'reset':
       return {...action.payload}
     case 'change_settings':
-      if (
-        (state.currentMode === 'break' && state.remainingTime === state.breakSpan) ||
-        (state.currentMode === 'focus' && state.remainingTime === state.focusSpan)
-      )
+      // define the current total timer length
+      let currentSpan;
+      if (state.currentMode === 'break') currentSpan = state.breakSpan;
+      if (state.currentMode === 'longBreak') currentSpan = state.longBreakSpan;
+      if (state.currentMode === 'focus') currentSpan = state.focusSpan;
+      // if the timer is new (no time has elapsed)
+      if (currentSpan === remainingTime) {
+        let newSpan;
+        if (state.currentMode === 'break') newSpan = action.payload.breakSpan;
+        if (state.currentMode === 'longBreak') newspan = action.payload.longBreakSpan;
+        if (state.currentMode === 'focus') newSpan = action.payload.focusSpan;
+        // change the current timer length
         return {
           ...state,
           focusSpan: action.payload.focusSpan,
           breakSpan: action.payload.breakSpan,
           longBreakSpan: action.payload.longBreakSpan,
-          remainingTime: state.currentMode === 'focus' ? action.payload.focusSpan : breakSpan,
+          remainingTime: newSpan,
         }
+      }
+      // otherwise just change the settings (applied after completiong or reset)
       return {
         ...state,
         focusSpan: action.payload.focusSpan,
         breakSpan: action.payload.breakSpan,
         longBreakSpan: action.payload.longBreakSpan,
+      }
+    case 'set_long_break':
+      return {
+        ...state,
+        currentMode: 'longBreak',
       }
     default:
       throw new Error();
@@ -125,12 +140,15 @@ const usePomodoroTimer = ({ focusSpan, breakSpan, longBreakSpan }) => {
     });
   }
 
+  const setLongBreak = () => dispatch({type: 'set_long_break'});
+
   return {
     ...state,
     totalTime,
     playPause,
     reset,
     changeSettings,
+    setLongBreak,
   }
 }
 
