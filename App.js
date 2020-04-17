@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MainView from './components/views/MainView';
 import Settings from './components/views/Settings';
-import { SettingsProvider } from './components/utilities/settingsContext';
+import { SettingsProvider } from './components/utilities/SettingsContext';
 
 const Stack = createStackNavigator();
 

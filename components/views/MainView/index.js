@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Audio } from 'expo-av';
-import {SettingsContext} from '../../utilities/settingsContext'
+import {SettingsContext} from '../../utilities/SettingsContext'
 
 import usePomodoroCount from '../../utilities/usePomodoroCount';
 import usePomodoroTimer from '../../utilities/usePomodoroTimer';
@@ -17,11 +17,6 @@ export default function MainView({navigation}) {
   const settings = useContext(SettingsContext);
   const timer = usePomodoroTimer(settings);
 
-  // send latest settings to the timer component
-  useEffect(() => {
-    timer.changeSettings(settings);
-  }, [settings.focusSpan, settings.breakSpan, settings.longBreakSpan])
-
   useEffect(() => {
     if (timer.isFinished) {
       // if focus period has just finished
@@ -36,10 +31,7 @@ export default function MainView({navigation}) {
   }, [timer.isFinished]);
 
   useEffect(() => {
-    console.log(pomodoroCount);
-    console.log(settings.longBreakEvery);
-    console.log(pomodoroCount % settings.longBreakEvery);
-    if (pomodoroCount % settings.longBreakEvery === 0) {
+    if (pomodoroCount !== 0 && pomodoroCount % settings.longBreakEvery === 0) {
       timer.setLongBreak();
     }
   }, [pomodoroCount]);

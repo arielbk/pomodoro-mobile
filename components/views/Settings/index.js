@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import { StyleSheet, SafeAreaView, View, ScrollView, Text, TouchableOpacity, Dimensions, Platform, Picker } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { SettingsProvider, SettingsContext } from '../../utilities/settingsContext';
+import { SettingsProvider, SettingsContext } from '../../utilities/SettingsContext';
 
 const screen = Dimensions.get('window');
 
@@ -13,7 +13,9 @@ const Settings = ({navigation}) => {
     longBreakSpan,
     setFocusSpan,
     setBreakSpan,
-    setLongBreakSpan
+    setLongBreakSpan,
+    longBreakEvery,
+    setLongBreakEvery,
   } = settings;
   return (
     <SettingsProvider>
@@ -62,7 +64,7 @@ const Settings = ({navigation}) => {
             }}
             onValueChange={val => setBreakSpan(Number(val * 1000 * 60))}
           >
-            <Picker.Item label="0.1" value="0.1" />
+            <Picker.Item label="0.05" value="0.05" />
             <Picker.Item label="5" value="5" />
             <Picker.Item label="10" value="10" />
             <Picker.Item label="15" value="15" />
@@ -83,7 +85,7 @@ const Settings = ({navigation}) => {
             }}
             onValueChange={val => setLongBreakSpan(Number(val * 1000 * 60))}
           >
-            <Picker.Item label="0.1" value="0.1" />
+            <Picker.Item label="0.15" value="0.15" />
             <Picker.Item label="5" value="5" />
             <Picker.Item label="10" value="10" />
             <Picker.Item label="15" value="15" />
@@ -91,6 +93,25 @@ const Settings = ({navigation}) => {
             <Picker.Item label="25" value="25" />
             <Picker.Item label="30" value="30" />
             <Picker.Item label="35" value="35" />
+          </Picker>
+        </Text>
+        <Text style={styles.settingsItem}>
+          Long break every:
+          <Picker
+            selectedValue={String(longBreakEvery)}
+            style={{
+              height: 200,
+              width: screen.width-160,
+              marginBottom: 40,
+            }}
+            onValueChange={val => setLongBreakEvery(val)}
+          >
+            <Picker.Item label="2" value="2" />
+            <Picker.Item label="3" value="3" />
+            <Picker.Item label="4" value="4" />
+            <Picker.Item label="5" value="5" />
+            <Picker.Item label="6" value="6" />
+            <Picker.Item label="7" value="7" />
           </Picker>
         </Text>
       </ScrollView>
