@@ -13,9 +13,6 @@ const Content = ({timer, navigation}) => (
       <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
         <Ionicons name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'} color="#d9d9d9" size={40} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-        <Ionicons name={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'} color="#d9d9d9" size={40} />
-      </TouchableOpacity>
     </View>
     <Text style={styles.projectText}>Project name</Text>
     <Timer millis={timer.remainingTime} />
