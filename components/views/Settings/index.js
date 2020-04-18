@@ -22,7 +22,7 @@ const Settings = ({navigation}) => {
       <View style={styles.container}>
       <SafeAreaView>
         <View style={styles.topIcons}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 12 }}>
             <Ionicons name={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'} color="#d9d9d9" size={28} />
           </TouchableOpacity>
           <Text style={styles.title}>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 30,
-    paddingBottom: 30,
+    paddingBottom: 14,
     width: screen.width,
     marginTop: 20,
     backgroundColor: '#fff',
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#676767',
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '300',
     marginLeft: screen.width / 4,
   },
