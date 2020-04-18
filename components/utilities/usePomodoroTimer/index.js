@@ -3,15 +3,15 @@ import reducer, { initialState } from './reducer';
 import { SettingsContext } from '../SettingsContext';
 
 const usePomodoroTimer = () => {
-  const settings = useContext(SettingsContext);
+  const { focusSpan, breakSpan, longBreakSpan } = useContext(SettingsContext);
   const [state, dispatch] = useReducer(
     reducer,
     {
       ...initialState,
-      focusSpan: settings.focusSpan,
-      breakSpan: settings.breakSpan,
-      longBreakSpan: settings.longBreakSpan,
-      remainingTime: settings.focusSpan
+      focusSpan,
+      breakSpan,
+      longBreakSpan,
+      remainingTime: focusSpan
     },
   );
   const interval = useRef();
@@ -33,9 +33,13 @@ const usePomodoroTimer = () => {
   useEffect(() => {
     dispatch({
       type: 'change_settings',
-      payload: settings,
+      payload: {
+        focusSpan,
+        breakSpan,
+        longBreakSpan,
+      },
     });
-  }, [settings]);
+  }, [focusSpan, breakSpan, longBreakSpan]);
 
   const totalTime = state.currentMode === 'focus'
     ? state.focusSpan
