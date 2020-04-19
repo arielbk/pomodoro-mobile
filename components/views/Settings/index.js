@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { StyleSheet, SafeAreaView, View, ScrollView, Text, TouchableOpacity, Dimensions, Platform, Picker } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, Text, TouchableOpacity, Dimensions, Platform, Slider, Picker } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SettingsProvider, SettingsContext } from '../../utilities/SettingsContext';
 
@@ -20,6 +20,7 @@ const Settings = ({navigation}) => {
   return (
     <SettingsProvider>
       <View style={styles.container}>
+
       <SafeAreaView>
         <View style={styles.topIcons}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 12 }}>
@@ -30,90 +31,70 @@ const Settings = ({navigation}) => {
           </Text>
         </View>
       </SafeAreaView>
+      
       <ScrollView style={styles.mainContent}>
-        <Text style={styles.settingsItem}>
-          Focus span:
-          <Picker
-            selectedValue={String(focusSpan/1000/60)}
-            style={{
-              height: 160,
-              width: screen.width-160,
-              marginBottom: 40,
-            }}
-            onValueChange={val => console.log(val)}
+
+        <View style={styles.settingsItem}>
+          <Text style={styles.settingsText}>
+            Focus span: {focusSpan / 1000 / 60} minutes
+          </Text>
+          <Slider
+            minimumTrackTintColor="#aaa"
+            value={focusSpan/1000/60}
+            style={{ height: 80 }}
+            step={1}
+            minimumValue={0}
+            maximumValue={60}
             onValueChange={val => setFocusSpan(Number(val * 1000 * 60))}
-          >
-            <Picker.Item label="0.1" value="0.1" />
-            <Picker.Item label="5" value="5" />
-            <Picker.Item label="10" value="10" />
-            <Picker.Item label="15" value="15" />
-            <Picker.Item label="20" value="20" />
-            <Picker.Item label="25" value="25" />
-            <Picker.Item label="30" value="30" />
-            <Picker.Item label="35" value="35" />
-          </Picker>
-        </Text>
-        <Text style={styles.settingsItem}>
-          Break span:
-          <Picker
-            selectedValue={String(breakSpan/1000/60)}
-            style={{
-              height: 200,
-              width: screen.width-160,
-              marginBottom: 40,
-            }}
+          />
+        </View>
+
+        <View style={styles.settingsItem}>
+          <Text style={styles.settingsText}>
+            Break span: {breakSpan / 1000/ 60} minutes
+          </Text>
+          <Slider
+            minimumTrackTintColor="#aaa"
+            value={breakSpan/1000/60}
+            style={{ height: 80 }}
+            step={1}
+            minimumValue={0}
+            maximumValue={60}
             onValueChange={val => setBreakSpan(Number(val * 1000 * 60))}
-          >
-            <Picker.Item label="0.05" value="0.05" />
-            <Picker.Item label="5" value="5" />
-            <Picker.Item label="10" value="10" />
-            <Picker.Item label="15" value="15" />
-            <Picker.Item label="20" value="20" />
-            <Picker.Item label="25" value="25" />
-            <Picker.Item label="30" value="30" />
-            <Picker.Item label="35" value="35" />
-          </Picker>
-        </Text>
-        <Text style={styles.settingsItem}>
-          Long break span:
-          <Picker
-            selectedValue={String(longBreakSpan/1000/60)}
-            style={{
-              height: 200,
-              width: screen.width-160,
-              marginBottom: 40,
-            }}
+          />
+        </View>
+
+        <View style={styles.settingsItem}>
+          <Text style={styles.settingsText}>
+            Long break span: {longBreakSpan / 1000 / 60} minutes
+          </Text>
+          <Slider
+            minimumTrackTintColor="#aaa"
+            value={longBreakSpan/1000/60}
+            style={{ height: 80 }}
+            step={1}
+            minimumValue={0}
+            maximumValue={60}
             onValueChange={val => setLongBreakSpan(Number(val * 1000 * 60))}
-          >
-            <Picker.Item label="0.15" value="0.15" />
-            <Picker.Item label="5" value="5" />
-            <Picker.Item label="10" value="10" />
-            <Picker.Item label="15" value="15" />
-            <Picker.Item label="20" value="20" />
-            <Picker.Item label="25" value="25" />
-            <Picker.Item label="30" value="30" />
-            <Picker.Item label="35" value="35" />
-          </Picker>
-        </Text>
-        <Text style={styles.settingsItem}>
-          Long break every:
-          <Picker
-            selectedValue={String(longBreakEvery)}
-            style={{
-              height: 200,
-              width: screen.width-160,
-              marginBottom: 40,
-            }}
+          />
+        </View>
+
+        <View style={styles.settingsItem}>
+          <Text style={styles.settingsText}>
+            Long break every: {longBreakEvery}
+          </Text>
+          <Slider
+            minimumTrackTintColor="#aaa"
+            value={longBreakEvery}
+            style={{ height: 80 }}
+            step={1}
+            minimumValue={0}
+            maximumValue={10}
             onValueChange={val => setLongBreakEvery(val)}
-          >
-            <Picker.Item label="2" value="2" />
-            <Picker.Item label="3" value="3" />
-            <Picker.Item label="4" value="4" />
-            <Picker.Item label="5" value="5" />
-            <Picker.Item label="6" value="6" />
-            <Picker.Item label="7" value="7" />
-          </Picker>
-        </Text>
+          />
+      </View>
+
+      <View style={{ height: 80 }} />
       </ScrollView>
     </View>
   </SettingsProvider>
@@ -131,33 +112,39 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 30,
-    paddingBottom: 14,
+    paddingBottom: 7,
     width: screen.width,
     marginTop: 20,
     backgroundColor: '#fff',
     elevation: 2,
     shadowOffset: { width: 0, height: 20 },
     shadowColor: 'rgb(49, 66, 72)',
-    shadowOpacity: 0.03,
+    shadowOpacity: 0.5,
     shadowRadius: 10,
   },
   title: {
     color: '#676767',
     fontSize: 24,
-    fontWeight: '300',
+    fontWeight: '500',
     marginLeft: screen.width / 4,
   },
   mainContent: {
-    paddingHorizontal: 40,
-    paddingTop: 60,
+    paddingHorizontal: 10,
+    paddingVertical: 40,
     width: screen.width,
+    backgroundColor: '#eee',
   },
   settingsItem: {
     flexDirection: 'column',
-    marginBottom: 26,
-    fontSize: 29,
+    marginBottom: 36,
+    backgroundColor: '#fff',
+    padding: 24,
+    borderRadius: 8,
+  },
+  settingsText: {
     color: '#676767',
     fontWeight: '200',
+    fontSize: 29,
   }
 });
 
