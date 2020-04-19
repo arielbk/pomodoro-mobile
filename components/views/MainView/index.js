@@ -2,8 +2,9 @@ import React, { useEffect, useContext } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Audio } from 'expo-av';
 import {SettingsContext} from '../../utilities/SettingsContext'
+import {ProjectsContext} from '../../utilities/ProjectsContext'
+import {LogsContext} from '../../utilities/LogsContext';
 
-import usePomodoroCount from '../../utilities/usePomodoroCount';
 import usePomodoroTimer from '../../utilities/usePomodoroTimer';
 
 import Content from './Content';
@@ -13,14 +14,21 @@ const endSound = new Audio.Sound();
 endSound.loadAsync(require('../../../assets/sounds/levelup.mp3'));
 
 export default function MainView({navigation}) {
-  const [pomodoroCount, incrementPomodoro] = usePomodoroCount();
   const settings = useContext(SettingsContext);
+  const { selectedProject } = useContext(ProjectsContext);
+  const { pomodoroCount, addPomodoroLog } = useContext(LogsContext);
   const timer = usePomodoroTimer(settings);
 
   useEffect(() => {
     if (timer.isFinished) {
       // if focus period has just finished
-      if (timer.currentMode === 'break') incrementPomodoro();
+      if (timer.currentMode === 'break' || timer.currentMode === 'longBreak') {
+        addPomodoroLog({
+          timeCompleted: Date.now(),
+          project: selectedProject,
+          length: settings.focusSpan,
+        })
+      }
       // play finishing sound
       try {
         endSound.replayAsync();
