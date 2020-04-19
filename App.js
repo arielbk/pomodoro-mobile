@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import MainView from './components/views/MainView';
+import Projects from './components/views/Projects';
 import Menu from './components/views/MenuScreen';
 import Logs from './components/views/Logs';
 import Learn from './components/views/Learn';
@@ -11,6 +12,7 @@ import Insights from './components/views/Insights';
 
 import Settings from './components/views/Settings';
 import { SettingsProvider } from './components/utilities/SettingsContext';
+import { ProjectsProvider } from './components/utilities/ProjectsContext';
 
 const Stack = createStackNavigator();
 
@@ -92,12 +94,14 @@ function AppDrawer() {
 export default function App() {
   return (
     <SettingsProvider>
-      <NavigationContainer>
-        <Stack.Navigator headerMode="none">
-          <Stack.Screen name="App" component={AppDrawer} />
-          <Stack.Screen name="Settings" component={Settings} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ProjectsProvider>
+        <NavigationContainer>
+          <Stack.Navigator headerMode="none">
+            <Stack.Screen name="App" component={AppDrawer} />
+            <Stack.Screen name="Projects" component={Projects} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ProjectsProvider>
     </SettingsProvider>
   );
 }

@@ -31,16 +31,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    position: 'relative',
   },
   timerText: {
-    fontSize: 92,
+    fontSize: 72,
     color: '#676767',
     fontVariant: ['tabular-nums'],
   },
   centisecondText: {
-    fontSize: 36,
+    // position: 'absolute',
+    fontSize: 72,
     color: '#d7d7d7',
-    marginLeft: 5,
+    // marginLeft: 5,
     fontVariant: ['tabular-nums'],
+    // right: -105,
+
+    
   }
 });

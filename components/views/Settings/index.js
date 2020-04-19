@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import { StyleSheet, SafeAreaView, View, ScrollView, Text, TouchableOpacity, Dimensions, Platform, Slider, Picker } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import PageTitle from '../../shared/PageTitle';
 import { SettingsProvider, SettingsContext } from '../../utilities/SettingsContext';
 
 const screen = Dimensions.get('window');
@@ -21,16 +22,7 @@ const Settings = ({navigation}) => {
     <SettingsProvider>
       <View style={styles.container}>
 
-      <SafeAreaView>
-        <View style={styles.topIcons}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 12 }}>
-            <Ionicons name={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'} color="#d9d9d9" size={28} />
-          </TouchableOpacity>
-          <Text style={styles.title}>
-            Settings
-          </Text>
-        </View>
-      </SafeAreaView>
+      <PageTitle title="Settings" handleBack={navigation.openDrawer} />
       
       <ScrollView style={styles.mainContent}>
 
@@ -105,34 +97,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: '#fff',
-  },
-  topIcons: {
-    flexDirection: "row",
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-    paddingBottom: 7,
-    width: screen.width,
-    marginTop: 20,
-    backgroundColor: '#fff',
-    elevation: 2,
-    shadowOffset: { width: 0, height: 20 },
-    shadowColor: 'rgb(49, 66, 72)',
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-  },
-  title: {
-    color: '#676767',
-    fontSize: 24,
-    fontWeight: '500',
-    marginLeft: screen.width / 4,
+    backgroundColor: '#eee',
   },
   mainContent: {
     paddingHorizontal: 10,
     paddingVertical: 40,
     width: screen.width,
-    backgroundColor: '#eee',
   },
   settingsItem: {
     flexDirection: 'column',
