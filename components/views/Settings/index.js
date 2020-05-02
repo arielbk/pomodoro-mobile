@@ -1,5 +1,14 @@
 import React, {useContext} from 'react';
-import { StyleSheet, SafeAreaView, View, ScrollView, Text, TouchableOpacity, Dimensions, Platform, Slider, Picker } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  Dimensions,
+  Slider,
+  TextInput,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import PageTitle from '../../shared/PageTitle';
 import { SettingsProvider, SettingsContext } from '../../utilities/SettingsContext';
@@ -20,7 +29,7 @@ const Settings = ({navigation}) => {
   } = settings;
   return (
     <SettingsProvider>
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
 
       <PageTitle title="Settings" handleBack={navigation.openDrawer} />
       
@@ -28,8 +37,14 @@ const Settings = ({navigation}) => {
 
         <View style={styles.settingsItem}>
           <Text style={styles.settingsText}>
-            Focus span: {focusSpan / 1000 / 60} minutes
+            Focus span:
           </Text>
+          <TextInput
+            style={styles.numericInput}
+            value={String(focusSpan / 1000 / 60)}
+            onChangeText={val => setFocusSpan(Number(val * 1000 * 60))}
+            keyboardType="numeric"
+          />
           <Slider
             minimumTrackTintColor="#aaa"
             value={focusSpan/1000/60}
@@ -43,8 +58,14 @@ const Settings = ({navigation}) => {
 
         <View style={styles.settingsItem}>
           <Text style={styles.settingsText}>
-            Break span: {breakSpan / 1000/ 60} minutes
+            Break span:
           </Text>
+          <TextInput
+            style={styles.numericInput}
+            value={String(breakSpan / 1000 / 60)}
+            onChangeText={val => setBreakSpan(Number(val * 1000 * 60))}
+            keyboardType="numeric"
+          />
           <Slider
             minimumTrackTintColor="#aaa"
             value={breakSpan/1000/60}
@@ -58,8 +79,14 @@ const Settings = ({navigation}) => {
 
         <View style={styles.settingsItem}>
           <Text style={styles.settingsText}>
-            Long break span: {longBreakSpan / 1000 / 60} minutes
+            Long break span:
           </Text>
+          <TextInput
+            style={styles.numericInput}
+            value={String(longBreakSpan / 1000 / 60)}
+            onChangeText={val => setLongBreakSpan(Number(val * 1000 * 60))}
+            keyboardType="numeric"
+          />
           <Slider
             minimumTrackTintColor="#aaa"
             value={longBreakSpan/1000/60}
@@ -73,8 +100,14 @@ const Settings = ({navigation}) => {
 
         <View style={styles.settingsItem}>
           <Text style={styles.settingsText}>
-            Long break every: {longBreakEvery}
+            Long break every:
           </Text>
+          <TextInput
+            style={styles.numericInput}
+            value={String(longBreakEvery)}
+            onChangeText={val => setLongBreakEvery(val)}
+            keyboardType="numeric"
+          />
           <Slider
             minimumTrackTintColor="#aaa"
             value={longBreakEvery}
@@ -88,7 +121,7 @@ const Settings = ({navigation}) => {
 
       <View style={{ height: 80 }} />
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   </SettingsProvider>
 )};
 
@@ -113,8 +146,19 @@ const styles = StyleSheet.create({
   },
   settingsText: {
     color: '#676767',
-    fontWeight: '200',
-    fontSize: 29,
+    fontWeight: '300',
+    fontSize: 24,
+  },
+  numericInput: {
+    fontSize: 28,
+    width: 100,
+    alignSelf: 'center',
+    color: '#aaa',
+    padding: 10,
+    margin: 18,
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   }
 });
 

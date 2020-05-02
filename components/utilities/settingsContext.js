@@ -17,7 +17,7 @@ export const SettingsProvider = ({ children }) => {
     try {
       const storedSettings = await AsyncStorage.getItem('settings');
       const parsedSettings = JSON.parse(storedSettings);
-      console.log(parsedSettings);
+      
       if (parsedSettings) {
         setFocusSpan(parsedSettings.focusSpan);
         setBreakSpan(parsedSettings.breakSpan);

@@ -10,7 +10,7 @@ export default ({ navigation }) => {
 
   let sectionLog = [];
 
-  pomodoroLog.forEach(log => {
+  pomodoroLog.sort((a,b) => b.timeCompleted - a.timeCompleted).forEach(log => {
     let header;
     const daysAgo = differenceInDays(Date.now(), log.timeCompleted);
     if (daysAgo < 1) {
@@ -32,8 +32,6 @@ export default ({ navigation }) => {
       })
     }
   });
-
-  console.log(sectionLog);
 
   return (
     <View style={styles.container}>

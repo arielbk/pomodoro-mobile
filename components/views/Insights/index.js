@@ -1,23 +1,16 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Text,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
 import PageTitle from '../../shared/PageTitle';
 
 export default function Insights({ navigation }) {
-  console.log('rendering revolut chart');
+  console.log('rendering insights');
 
   return (
     <SafeAreaView style={styles.root}>
       <PageTitle title="Insights" handleBack={navigation.toggleDrawer} />
-      <Text>
-        Insights
-      </Text>
+      <Text>Insights</Text>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

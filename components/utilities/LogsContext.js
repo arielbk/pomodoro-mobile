@@ -2,53 +2,83 @@ import React, { createContext, useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
 import { isToday, set } from 'date-fns';
 
-// const testingInitialData = [
-//   {
-//     "length": 1500000,
-//     "project": "Voting",
-//     "timeCompleted": 1587287305101,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Pomodoro",
-//     "timeCompleted": 1587287305102,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Voting",
-//     "timeCompleted": 1587207305103,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Voting",
-//     "timeCompleted": 1587207305104,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Voting",
-//     "timeCompleted": 1587207305105,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Maths",
-//     "timeCompleted": 1586207305106,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Maths",
-//     "timeCompleted": 1586207305107,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Maths",
-//     "timeCompleted": 1586207305108,
-//   },
-//   {
-//     "length": 1500000,
-//     "project": "Maths",
-//     "timeCompleted": 1586207305109,
-//   },
-// ]
+const testingInitialData = [
+  {
+    "length": 1500000,
+    "project": "Voting",
+    "timeCompleted": 1587287305101,
+  },
+  {
+    "length": 1500000,
+    "project": "Pomodoro",
+    "timeCompleted": 1587287305102,
+  },
+  {
+    "length": 1500000,
+    "project": "Voting",
+    "timeCompleted": 1587207305103,
+  },
+  {
+    "length": 1500000,
+    "project": "Voting",
+    "timeCompleted": 1587207305104,
+  },
+  {
+    "length": 1500000,
+    "project": "Voting",
+    "timeCompleted": 1587207305105,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1586207305106,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1586207305107,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1586207305108,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1586207305109,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1576207305107,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1576207305107,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1576207305106,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1576207305105,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1576207305104,
+  },
+  {
+    "length": 1500000,
+    "project": "Maths",
+    "timeCompleted": 1576207305103,
+  },
+]
 
 export const LogsContext = createContext();
 
@@ -62,8 +92,8 @@ export const LogsProvider = ({children}) => {
       const storedLogs = await AsyncStorage.getItem('pomodoroLogs');
       const parsedLogs = JSON.parse(storedLogs);
       setLogs(parsedLogs);
-      // // ! just here for testing
-      // setLogs(testingInitialData);
+      // ! just here for testing
+      setLogs(testingInitialData);
     } catch (error) {
       console.error(error);
     }
