@@ -1,13 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet  } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { format } from 'date-fns';
 
 const LogItem = ({ log }) => (
   <View style={styles.container}>
     <View>
-      <Text style={styles.titleText}>
-        {log.project || 'No project'}
-      </Text>
+      <Text style={styles.titleText}>{log.project || 'No project'}</Text>
       <Text style={styles.detailsText}>
         {log.length ? `${log.length / 60 / 1000} minutes` : '0 minutes'}
       </Text>
@@ -32,8 +30,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 18,
-    fontWeight: "600",
-  }
+    fontWeight: '600',
+  },
 });
 
 export default LogItem;
