@@ -19,7 +19,7 @@ export default ({ navigation }) => {
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <PageTitle title="Projects" handleBack={navigation.goBack} />
+      <PageTitle title="Projects" handleBack={navigation.goBack} isNested />
       <FlatList
         style={{ paddingTop: 30 }}
         data={projectList}
