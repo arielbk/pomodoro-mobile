@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import Svg, { G, Rect, Line, Text as SvgText } from 'react-native-svg';
-import { scaleLinear, scalePoint } from 'd3-scale';
+import { scaleLinear, scalePoint, scaleTime } from 'd3-scale';
+import { format, differenceInDays } from 'date-fns';
 
 const screen = Dimensions.get('window');
 
@@ -20,11 +21,12 @@ const SvgWidth = screen.width - 16;
 const graphHeight = SvgHeight - 2 * GRAPH_MARGIN;
 const graphWidth = SvgWidth - 2 * GRAPH_MARGIN;
 
-export default function BarChart({ data }) {
-  // x point scale
-  const xDomain = data.map((item) => item.label);
+export default function BarChart({ data, interval }) {
+  // x linear scale
+  const xDomain = [interval.start, interval.end];
   const xRange = [0, graphWidth];
-  const x = scalePoint().domain(xDomain).range(xRange).padding(1);
+  const x = scaleTime().domain(xDomain).range(xRange);
+  const xTicks = x.ticks(differenceInDays(interval.end, interval.start));
 
   let maxValue = 0;
   data.forEach((point) => {
@@ -71,9 +73,9 @@ export default function BarChart({ data }) {
           />
 
           {/* bars */}
-          {data.map((item) => (
+          {data.map((item, i) => (
             <Rect
-              key={`bar-${item.label}`}
+              key={`bar-${item.label}-${i}`}
               x={GRAPH_MARGIN + x(item.label) - GRAPH_BAR_WIDTH / 2}
               y={y(item.value) * -1 + GRAPH_MARGIN}
               rx={GRAPH_BAR_WIDTH / 2}
@@ -85,15 +87,15 @@ export default function BarChart({ data }) {
           ))}
 
           {/* labels */}
-          {data.map((item) => (
+          {xTicks.map((item, i) => (
             <SvgText
-              key={`label-${item.label}`}
-              x={GRAPH_MARGIN + x(item.label) - GRAPH_BAR_WIDTH / 2}
+              key={`label-${item}-${i}`}
+              x={GRAPH_MARGIN + x(item) - GRAPH_BAR_WIDTH / 2}
               y={50}
               textAnchor="middle"
               fillOpacity={0.4}
             >
-              {item.label}
+              {format(item, 'EEE')}
             </SvgText>
           ))}
         </G>
