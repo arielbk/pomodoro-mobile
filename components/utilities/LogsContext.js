@@ -6,77 +6,77 @@ const testingInitialData = [
   {
     length: 1500000,
     project: 'Voting',
-    timeCompleted: subDays(Date.now() - 1, 1),
+    timeCompleted: subDays(Date.now(), 1),
   },
   {
     length: 1500000,
     project: 'Pomodoro',
-    timeCompleted: 1587287305102,
+    timeCompleted: subDays(Date.now(), 1) - 1000,
   },
   {
     length: 1500000,
     project: 'Voting',
-    timeCompleted: 1587207305103,
+    timeCompleted: subDays(Date.now(), 1) - 2000,
   },
   {
     length: 1500000,
     project: 'Voting',
-    timeCompleted: 1587207305104,
+    timeCompleted: subDays(Date.now(), 1) - 3000,
   },
   {
     length: 1500000,
     project: 'Voting',
-    timeCompleted: 1587207305105,
+    timeCompleted: subDays(Date.now(), 2),
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1586207305106,
+    timeCompleted: subDays(Date.now(), 2) - 10000,
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1586207305107,
+    timeCompleted: subDays(Date.now(), 3),
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1586207305108,
+    timeCompleted: subDays(Date.now(), 5),
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1586207305109,
+    timeCompleted: subDays(Date.now(), 5) - 10000,
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1576207305107,
+    timeCompleted: subDays(Date.now(), 5) - 20000,
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1576207305107,
+    timeCompleted: subDays(Date.now(), 5) - 30000,
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1576207305106,
+    timeCompleted: subDays(Date.now(), 6),
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1576207305105,
+    timeCompleted: subDays(Date.now(), 7),
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1576207305104,
+    timeCompleted: subDays(Date.now(), 7) - 10000,
   },
   {
     length: 1500000,
     project: 'Maths',
-    timeCompleted: 1576207305103,
+    timeCompleted: subDays(Date.now(), 8),
   },
 ];
 

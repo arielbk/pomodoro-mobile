@@ -22,11 +22,13 @@ const graphHeight = SvgHeight - 2 * GRAPH_MARGIN;
 const graphWidth = SvgWidth - 2 * GRAPH_MARGIN;
 
 export default function BarChart({ data, interval }) {
-  // x linear scale
-  const xDomain = [interval.start, interval.end];
+  console.log(data);
+
+  // x point scale
+  const xDomain = data.map((item) => item.label);
   const xRange = [0, graphWidth];
-  const x = scaleTime().domain(xDomain).range(xRange);
-  const xTicks = x.ticks(differenceInDays(interval.end, interval.start));
+  const x = scalePoint().domain(xDomain).range(xRange);
+  // const xTicks = x.ticks(differenceInDays(interval.end, interval.start));
 
   let maxValue = 0;
   data.forEach((point) => {
@@ -87,15 +89,15 @@ export default function BarChart({ data, interval }) {
           ))}
 
           {/* labels */}
-          {xTicks.map((item, i) => (
+          {data.map((item, i) => (
             <SvgText
-              key={`label-${item}-${i}`}
-              x={GRAPH_MARGIN + x(item) - GRAPH_BAR_WIDTH / 2}
+              key={`label-${item.label}-${i}`}
+              x={GRAPH_MARGIN + x(item.label) - GRAPH_BAR_WIDTH / 2}
               y={50}
               textAnchor="middle"
               fillOpacity={0.4}
             >
-              {format(item, 'EEE')}
+              {format(new Date(item.label), 'EEE')}
             </SvgText>
           ))}
         </G>
