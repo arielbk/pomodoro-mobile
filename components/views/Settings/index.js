@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,13 +9,15 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import PageTitle from '../../shared/PageTitle';
-import { SettingsProvider, SettingsContext } from '../../utilities/SettingsContext';
+import {
+  SettingsProvider,
+  SettingsContext,
+} from '../../utilities/SettingsContext';
 
 const screen = Dimensions.get('window');
 
-const Settings = ({navigation}) => {
+const Settings = ({ navigation }) => {
   const settings = useContext(SettingsContext);
   const {
     focusSpan,
@@ -29,101 +31,95 @@ const Settings = ({navigation}) => {
   } = settings;
   return (
     <SettingsProvider>
-      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
+        <PageTitle title="Settings" handleBack={navigation.openDrawer} />
 
-      <PageTitle title="Settings" handleBack={navigation.openDrawer} />
-      
-      <ScrollView style={styles.mainContent}>
+        <ScrollView style={styles.mainContent}>
+          <View style={styles.settingsItem}>
+            <Text style={styles.settingsText}>Focus span:</Text>
+            <TextInput
+              style={styles.numericInput}
+              value={String(focusSpan / 1000 / 60)}
+              onChangeText={(val) => setFocusSpan(Number(val * 1000 * 60))}
+              keyboardType="numeric"
+            />
+            <Slider
+              minimumTrackTintColor="#aaa"
+              value={focusSpan / 1000 / 60}
+              style={{ height: 80 }}
+              step={1}
+              minimumValue={0}
+              maximumValue={60}
+              onValueChange={(val) => setFocusSpan(Number(val * 1000 * 60))}
+            />
+          </View>
 
-        <View style={styles.settingsItem}>
-          <Text style={styles.settingsText}>
-            Focus span:
-          </Text>
-          <TextInput
-            style={styles.numericInput}
-            value={String(focusSpan / 1000 / 60)}
-            onChangeText={val => setFocusSpan(Number(val * 1000 * 60))}
-            keyboardType="numeric"
-          />
-          <Slider
-            minimumTrackTintColor="#aaa"
-            value={focusSpan/1000/60}
-            style={{ height: 80 }}
-            step={1}
-            minimumValue={0}
-            maximumValue={60}
-            onValueChange={val => setFocusSpan(Number(val * 1000 * 60))}
-          />
-        </View>
+          <View style={styles.settingsItem}>
+            <Text style={styles.settingsText}>Break span:</Text>
+            <TextInput
+              style={styles.numericInput}
+              value={String(breakSpan / 1000 / 60)}
+              onChangeText={(val) => setBreakSpan(Number(val * 1000 * 60))}
+              keyboardType="numeric"
+            />
+            <Slider
+              minimumTrackTintColor="#aaa"
+              value={breakSpan / 1000 / 60}
+              style={{ height: 80 }}
+              step={1}
+              minimumValue={0}
+              maximumValue={60}
+              onValueChange={(val) => setBreakSpan(Number(val * 1000 * 60))}
+            />
+          </View>
 
-        <View style={styles.settingsItem}>
-          <Text style={styles.settingsText}>
-            Break span:
-          </Text>
-          <TextInput
-            style={styles.numericInput}
-            value={String(breakSpan / 1000 / 60)}
-            onChangeText={val => setBreakSpan(Number(val * 1000 * 60))}
-            keyboardType="numeric"
-          />
-          <Slider
-            minimumTrackTintColor="#aaa"
-            value={breakSpan/1000/60}
-            style={{ height: 80 }}
-            step={1}
-            minimumValue={0}
-            maximumValue={60}
-            onValueChange={val => setBreakSpan(Number(val * 1000 * 60))}
-          />
-        </View>
+          <View style={styles.settingsItem}>
+            <Text style={styles.settingsText}>Long break span:</Text>
+            <TextInput
+              style={styles.numericInput}
+              value={String(longBreakSpan / 1000 / 60)}
+              onChangeText={(val) => setLongBreakSpan(Number(val * 1000 * 60))}
+              keyboardType="numeric"
+            />
+            <Slider
+              minimumTrackTintColor="#aaa"
+              value={longBreakSpan / 1000 / 60}
+              style={{ height: 80 }}
+              step={1}
+              minimumValue={0}
+              maximumValue={60}
+              onValueChange={(val) => setLongBreakSpan(Number(val * 1000 * 60))}
+            />
+          </View>
 
-        <View style={styles.settingsItem}>
-          <Text style={styles.settingsText}>
-            Long break span:
-          </Text>
-          <TextInput
-            style={styles.numericInput}
-            value={String(longBreakSpan / 1000 / 60)}
-            onChangeText={val => setLongBreakSpan(Number(val * 1000 * 60))}
-            keyboardType="numeric"
-          />
-          <Slider
-            minimumTrackTintColor="#aaa"
-            value={longBreakSpan/1000/60}
-            style={{ height: 80 }}
-            step={1}
-            minimumValue={0}
-            maximumValue={60}
-            onValueChange={val => setLongBreakSpan(Number(val * 1000 * 60))}
-          />
-        </View>
+          <View style={styles.settingsItem}>
+            <Text style={styles.settingsText}>Long break every:</Text>
+            <TextInput
+              style={styles.numericInput}
+              value={String(longBreakEvery)}
+              onChangeText={(val) => setLongBreakEvery(val)}
+              keyboardType="numeric"
+            />
+            <Slider
+              minimumTrackTintColor="#aaa"
+              value={longBreakEvery}
+              style={{ height: 80 }}
+              step={1}
+              minimumValue={0}
+              maximumValue={10}
+              onValueChange={(val) => setLongBreakEvery(val)}
+            />
+          </View>
 
-        <View style={styles.settingsItem}>
-          <Text style={styles.settingsText}>
-            Long break every:
-          </Text>
-          <TextInput
-            style={styles.numericInput}
-            value={String(longBreakEvery)}
-            onChangeText={val => setLongBreakEvery(val)}
-            keyboardType="numeric"
-          />
-          <Slider
-            minimumTrackTintColor="#aaa"
-            value={longBreakEvery}
-            style={{ height: 80 }}
-            step={1}
-            minimumValue={0}
-            maximumValue={10}
-            onValueChange={val => setLongBreakEvery(val)}
-          />
-      </View>
-
-      <View style={{ height: 80 }} />
-      </ScrollView>
-    </KeyboardAvoidingView>
-  </SettingsProvider>
-)};
+          <View style={{ height: 80 }} />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SettingsProvider>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -159,8 +155,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-  }
+  },
 });
-
 
 export default Settings;

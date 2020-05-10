@@ -29,7 +29,6 @@ export default function BarChart({ data }) {
   const xDomain = data.map((item) => item.label);
   const xRange = [0, graphWidth];
   const x = scalePoint().domain(xDomain).range(xRange);
-  // const xTicks = x.ticks(differenceInDays(interval.end, interval.start));
 
   let maxValue = 0;
   data.forEach((point) => {
@@ -127,6 +126,7 @@ export default function BarChart({ data }) {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
