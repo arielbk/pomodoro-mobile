@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, TextInput  } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -18,15 +18,24 @@ const ProjectInput = ({ addProject }) => {
     >
       <TextInput
         style={styles.input}
-        onChangeText={val => setText(val)}
+        onChangeText={(val) => setText(val)}
         value={text}
         placeholder="New project..."
       />
       <TouchableOpacity onPress={handleAddProject}>
-        <Ionicons name={Platform.OS === 'android' ? 'md-add-circle-outline' : 'ios-add-circle-outline'} color="#d9d9d9" size={42} />
+        <Ionicons
+          name={
+            Platform.OS === 'android'
+              ? 'md-add-circle-outline'
+              : 'ios-add-circle-outline'
+          }
+          color="#d9d9d9"
+          size={42}
+        />
       </TouchableOpacity>
     </KeyboardAvoidingView>
-)};
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +56,7 @@ const styles = StyleSheet.create({
     width: '85%',
     padding: 8,
     marginVertical: 8,
-  }
+  },
 });
 
 export default ProjectInput;

@@ -4,7 +4,11 @@ import { AsyncStorage } from 'react-native';
 export const ProjectsContext = createContext();
 
 export const ProjectsProvider = ({ children }) => {
-  const [projectList, setProjectList] = useState(['Pomodoro app', 'Voting', 'Maths']);
+  const [projectList, setProjectList] = useState([
+    'Pomodoro app',
+    'Voting',
+    'Maths',
+  ]);
   const [selectedProject, setSelectedProject] = useState('');
 
   const loadSavedProjectList = async () => {
@@ -12,12 +16,12 @@ export const ProjectsProvider = ({ children }) => {
       const storedProjectList = await AsyncStorage.getItem('projectList');
       const parsedProjectList = JSON.parse(storedProjectList);
       if (parsedProjectList) {
-        setProjectList(parsedProjectList)
+        setProjectList(parsedProjectList);
       }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   // load saved project list on mount
   useEffect(() => {
@@ -33,21 +37,24 @@ export const ProjectsProvider = ({ children }) => {
     }
   }, [projectList]);
 
-  const addProject = project => {
-    setProjectList(prev => ([...prev, project]));
+  const addProject = (project) => {
+    setProjectList((prev) => [...prev, project]);
     setSelectedProject(project);
   };
-  const removeProject = project => setProjectList(prev => prev.filter(name => name !== project))
+  const removeProject = (project) =>
+    setProjectList((prev) => prev.filter((name) => name !== project));
 
   return (
-    <ProjectsContext.Provider value={{
-      projectList,
-      selectedProject,
-      setSelectedProject,
-      addProject,
-      removeProject,
-    }}>
+    <ProjectsContext.Provider
+      value={{
+        projectList,
+        selectedProject,
+        setSelectedProject,
+        addProject,
+        removeProject,
+      }}
+    >
       {children}
     </ProjectsContext.Provider>
-  )
-}
+  );
+};

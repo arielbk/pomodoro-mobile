@@ -16,6 +16,7 @@ export default function Projects({ navigation }) {
     selectedProject,
     setSelectedProject,
     addProject,
+    removeProject,
   } = useContext(ProjectsContext);
 
   return (
@@ -32,6 +33,7 @@ export default function Projects({ navigation }) {
             title={item}
             isSelected={selectedProject === item}
             setSelected={() => setSelectedProject(item)}
+            removeProject={removeProject}
           />
         )}
         keyExtractor={(item) => item}
@@ -40,6 +42,7 @@ export default function Projects({ navigation }) {
             title="No project"
             isSelected={!selectedProject}
             setSelected={() => setSelectedProject('')}
+            removeProject={removeProject}
           />
         }
         ListFooterComponent={<ProjectInput addProject={addProject} />}
