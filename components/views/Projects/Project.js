@@ -67,7 +67,13 @@ const Project = ({ title, isSelected, setSelected, removeProject }) => {
           onPress: () => swipeable.current.close(),
           style: 'cancel',
         },
-        { text: 'Confirm', onPress: () => removeProject(title) },
+        {
+          text: 'Confirm',
+          onPress: () => {
+            swipeable.current.close();
+            removeProject(title);
+          },
+        },
       ]
     );
   };

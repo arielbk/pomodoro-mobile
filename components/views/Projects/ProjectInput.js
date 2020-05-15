@@ -24,12 +24,8 @@ const ProjectInput = ({ addProject }) => {
       />
       <TouchableOpacity onPress={handleAddProject}>
         <Ionicons
-          name={
-            Platform.OS === 'android'
-              ? 'md-add-circle-outline'
-              : 'ios-add-circle-outline'
-          }
-          color="#d9d9d9"
+          name={Platform.OS === 'android' ? 'md-add-circle' : 'ios-add-circle'}
+          color="#aaa"
           size={42}
         />
       </TouchableOpacity>
@@ -44,10 +40,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     paddingVertical: 18,
-    paddingHorizontal: 16,
+    paddingHorizontal: 21,
     borderRadius: 5,
     margin: 8,
-    marginTop: 16,
+    marginBottom: 16,
   },
   input: {
     fontSize: 16,

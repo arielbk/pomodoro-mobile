@@ -4,6 +4,8 @@ import { AsyncStorage } from 'react-native';
 export const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
+  // daily pomodoro goal
+  const [dailyGoal, setDailyGoal] = useState(4);
   // focus time length
   const [focusSpan, setFocusSpan] = useState(1500000);
   // break time length
@@ -17,7 +19,7 @@ export const SettingsProvider = ({ children }) => {
     try {
       const storedSettings = await AsyncStorage.getItem('settings');
       const parsedSettings = JSON.parse(storedSettings);
-      
+
       if (parsedSettings) {
         setFocusSpan(parsedSettings.focusSpan);
         setBreakSpan(parsedSettings.breakSpan);
@@ -27,7 +29,7 @@ export const SettingsProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   // load saved settings on mount
   useEffect(() => {
@@ -38,7 +40,10 @@ export const SettingsProvider = ({ children }) => {
   useEffect(() => {
     try {
       const toSave = {
-        focusSpan, breakSpan, longBreakSpan, longBreakEvery,
+        focusSpan,
+        breakSpan,
+        longBreakSpan,
+        longBreakEvery,
       };
       AsyncStorage.setItem('settings', JSON.stringify(toSave));
     } catch (error) {
@@ -47,17 +52,21 @@ export const SettingsProvider = ({ children }) => {
   }, [focusSpan, breakSpan, longBreakSpan, longBreakEvery]);
 
   return (
-    <SettingsContext.Provider value={{
-      focusSpan,
-      setFocusSpan,
-      breakSpan,
-      setBreakSpan,
-      longBreakSpan,
-      setLongBreakSpan,
-      longBreakEvery,
-      setLongBreakEvery,
-    }}>
+    <SettingsContext.Provider
+      value={{
+        focusSpan,
+        setFocusSpan,
+        breakSpan,
+        setBreakSpan,
+        longBreakSpan,
+        setLongBreakSpan,
+        longBreakEvery,
+        setLongBreakEvery,
+        dailyGoal,
+        setDailyGoal,
+      }}
+    >
       {children}
     </SettingsContext.Provider>
-  )
-}
+  );
+};

@@ -1,43 +1,55 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import React, { useContext } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { SettingsContext } from '../../utilities/SettingsContext';
 
 const screen = Dimensions.get('window');
 
-const Footer = ({timer, pomodoroCount}) => (
-  <View style={styles.footerContent}>      
-    <TouchableOpacity onPress={timer.reset}>
-      <View style={styles.button}>
-        <Text>
-          {
-            Platform.OS === 'android'
-              ? <Ionicons name="md-refresh" color="#676767" size={36} />
-              : <Ionicons name="ios-refresh" color="#676767" size={36} />
-          }
-        </Text>
-      </View>
-    </TouchableOpacity>
-    <Text style={styles.pomodoroCount}>
-      {pomodoroCount} / 8
-    </Text>
-    <TouchableOpacity onPress={timer.playPause}>
-      <View style={styles.button}>
-        <Text>
-          {
-            timer.isRunning
-              ? Platform.OS === 'android'
-                ? <Ionicons name="md-pause" color="#676767" size={36} />
-                : <Ionicons name="ios-pause" color="#676767" size={36} />
-              : Platform.OS === 'android'
-                ? <Ionicons name="md-play" color="#676767" size={36} />
-                : <Ionicons name="ios-play" color="#676767" size={36} />
-          }
-        </Text>
-      </View>
-    </TouchableOpacity>
-
-  </View>
-);
+const Footer = ({ timer, pomodoroCount }) => {
+  const { dailyGoal } = useContext(SettingsContext);
+  return (
+    <View style={styles.footerContent}>
+      <TouchableOpacity onPress={timer.reset}>
+        <View style={styles.button}>
+          <Text>
+            {Platform.OS === 'android' ? (
+              <Ionicons name="md-refresh" color="#676767" size={36} />
+            ) : (
+              <Ionicons name="ios-refresh" color="#676767" size={36} />
+            )}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <Text style={styles.pomodoroCount}>
+        {pomodoroCount} / {dailyGoal}
+      </Text>
+      <TouchableOpacity onPress={timer.playPause}>
+        <View style={styles.button}>
+          <Text>
+            {timer.isRunning ? (
+              Platform.OS === 'android' ? (
+                <Ionicons name="md-pause" color="#676767" size={36} />
+              ) : (
+                <Ionicons name="ios-pause" color="#676767" size={36} />
+              )
+            ) : Platform.OS === 'android' ? (
+              <Ionicons name="md-play" color="#676767" size={36} />
+            ) : (
+              <Ionicons name="ios-play" color="#676767" size={36} />
+            )}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   footerContent: {
@@ -68,7 +80,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '200',
     marginVertical: 20,
-  }
+  },
 });
 
 export default Footer;

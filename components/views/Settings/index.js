@@ -28,6 +28,8 @@ const Settings = ({ navigation }) => {
     setLongBreakSpan,
     longBreakEvery,
     setLongBreakEvery,
+    dailyGoal,
+    setDailyGoal,
   } = settings;
   return (
     <SettingsProvider>
@@ -38,6 +40,25 @@ const Settings = ({ navigation }) => {
         <PageTitle title="Settings" handleBack={navigation.openDrawer} />
 
         <ScrollView style={styles.mainContent}>
+          <View style={styles.settingsItem}>
+            <Text style={styles.settingsText}>Daily goal:</Text>
+            <TextInput
+              style={styles.numericInput}
+              value={String(dailyGoal)}
+              onChangeText={(val) => setDailyGoal(val)}
+              keyboardType="numeric"
+            />
+            <Slider
+              minimumTrackTintColor="#aaa"
+              value={dailyGoal}
+              style={{ height: 80 }}
+              step={1}
+              minimumValue={1}
+              maximumValue={30}
+              onValueChange={(val) => setDailyGoal(val)}
+            />
+          </View>
+
           <View style={styles.settingsItem}>
             <Text style={styles.settingsText}>Focus span:</Text>
             <TextInput
