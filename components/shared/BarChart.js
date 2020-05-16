@@ -126,7 +126,6 @@ export default function BarChart({ data }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',

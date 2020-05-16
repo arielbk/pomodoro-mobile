@@ -1,24 +1,22 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, SafeAreaView, Picker } from 'react-native';
-import {
-  differenceInDays,
-  subDays,
-  isWithinInterval,
-  isEqual,
-  setDay,
-} from 'date-fns';
+import { StyleSheet, SafeAreaView, TouchableOpacity, Text } from 'react-native';
+import { differenceInDays, subDays, isWithinInterval, isEqual } from 'date-fns';
 import { scaleTime } from 'd3-scale';
+import { AntDesign } from '@expo/vector-icons';
 import PageTitle from '../../shared/PageTitle';
 import BarChart from '../../shared/BarChart';
 import { LogsContext } from '../../utilities/LogsContext';
+import { FilterContext } from './InsightsContext';
 
 export default function Insights({ navigation }) {
   const { pomodoroLog } = useContext(LogsContext);
-  const [days, setDays] = useState(7);
+  const { days, project } = useContext(FilterContext);
 
   const interval = { start: subDays(new Date(), days), end: new Date() };
-  const selectedLogs = pomodoroLog.filter((log) =>
-    isWithinInterval(log.timeCompleted, interval)
+  const selectedLogs = pomodoroLog.filter(
+    (log) =>
+      (isWithinInterval(log.timeCompleted, interval) && !project) ||
+      log.project === project
   );
 
   let logCount = [];
@@ -61,20 +59,13 @@ export default function Insights({ navigation }) {
     <>
       <PageTitle title="Insights" handleBack={navigation.toggleDrawer} />
       <SafeAreaView style={styles.container}>
-        <Picker
-          selectedValue={days}
-          onValueChange={(val) => setDays(val)}
-          style={{
-            height: 100,
-            width: 200,
-            marginTop: -50,
-            marginBottom: 50,
-          }}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('InsightsFilter')}
+          style={styles.filterButton}
         >
-          <Picker.Item label="Last week" value={7} />
-          <Picker.Item label="Last 2 weeks" value={14} />
-          <Picker.Item label="Last month" value={30} />
-        </Picker>
+          <Text style={styles.filterButtonText}>Filter</Text>
+          <AntDesign name="filter" size={24} color="#888" />
+        </TouchableOpacity>
         <BarChart data={logCount} interval={interval} />
       </SafeAreaView>
     </>
@@ -86,5 +77,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  filterButton: {
+    flexDirection: 'row',
+    marginTop: -48,
+    marginBottom: 18,
+    alignSelf: 'flex-end',
+    marginRight: 20,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  filterButtonText: {
+    color: '#333',
+    fontSize: 18,
+    marginRight: 16,
   },
 });

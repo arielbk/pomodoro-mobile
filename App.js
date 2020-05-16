@@ -9,11 +9,29 @@ import Menu from './components/views/MenuScreen';
 import Logs from './components/views/Logs';
 import Learn from './components/views/Learn';
 import Insights from './components/views/Insights';
+import InsightsFilter from './components/views/Insights/Filter';
+import { FilterProvider } from './components/views/Insights/InsightsContext';
 
 import Settings from './components/views/Settings';
 import { SettingsProvider } from './components/utilities/SettingsContext';
 import { ProjectsProvider } from './components/utilities/ProjectsContext';
 import { LogsProvider } from './components/utilities/LogsContext';
+
+const InsightsStack = createStackNavigator();
+
+function InsightsScreen() {
+  return (
+    <FilterProvider>
+      <InsightsStack.Navigator mode="modal" headerMode="none">
+        <InsightsStack.Screen name="Insights" component={Insights} />
+        <InsightsStack.Screen
+          name="InsightsFilter"
+          component={InsightsFilter}
+        />
+      </InsightsStack.Navigator>
+    </FilterProvider>
+  );
+}
 
 const Stack = createStackNavigator();
 
@@ -63,7 +81,7 @@ function AppDrawer() {
       />
       <Drawer.Screen
         name="Insights"
-        component={Insights}
+        component={InsightsScreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
