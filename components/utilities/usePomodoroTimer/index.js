@@ -4,16 +4,13 @@ import { SettingsContext } from '../SettingsContext';
 
 const usePomodoroTimer = () => {
   const { focusSpan, breakSpan, longBreakSpan } = useContext(SettingsContext);
-  const [state, dispatch] = useReducer(
-    reducer,
-    {
-      ...initialState,
-      focusSpan,
-      breakSpan,
-      longBreakSpan,
-      remainingTime: focusSpan
-    },
-  );
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    focusSpan,
+    breakSpan,
+    longBreakSpan,
+    remainingTime: focusSpan,
+  });
   const interval = useRef();
 
   useEffect(() => {
@@ -24,7 +21,7 @@ const usePomodoroTimer = () => {
           type: 'set_remaining',
           payload: state.remainingTime - timeElapsed,
         });
-      }, 30)
+      }, 30);
     } else {
       clearInterval(interval.current);
     }
@@ -41,9 +38,8 @@ const usePomodoroTimer = () => {
     });
   }, [focusSpan, breakSpan, longBreakSpan]);
 
-  const totalTime = state.currentMode === 'focus'
-    ? state.focusSpan
-    : state.breakSpan;
+  const totalTime =
+    state.currentMode === 'focus' ? state.focusSpan : state.breakSpan;
 
   const playPause = () => {
     const now = new Date().getTime();
@@ -55,17 +51,17 @@ const usePomodoroTimer = () => {
 
   const reset = () => {
     dispatch({
-      type: 'reset', 
+      type: 'reset',
       payload: {
         ...initialState,
         focusSpan,
         breakSpan,
-        remainingTime: focusSpan
-      }
+        remainingTime: focusSpan,
+      },
     });
   };
 
-  const setLongBreak = () => dispatch({type: 'set_long_break'});
+  const setLongBreak = () => dispatch({ type: 'set_long_break' });
 
   return {
     ...state,
@@ -73,7 +69,7 @@ const usePomodoroTimer = () => {
     playPause,
     reset,
     setLongBreak,
-  }
-}
+  };
+};
 
 export default usePomodoroTimer;

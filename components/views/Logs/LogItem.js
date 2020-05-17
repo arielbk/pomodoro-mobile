@@ -11,7 +11,7 @@ const LogItem = ({ log }) => (
       </Text>
     </View>
     <Text style={styles.detailsText}>
-      {format(log.timeCompleted, 'dd.MM.yyyy kk:mm:ss')}
+      {format(new Date(log.timeCompleted), 'dd.MM.yyyy kk:mm:ss')}
     </Text>
   </View>
 );

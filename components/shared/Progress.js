@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Dimensions, Animated, Easing } from 'react-native';
+
 const screen = Dimensions.get('window');
 
 export default function Progress({ isRunning, remainingTime, totalTime }) {
@@ -7,42 +8,30 @@ export default function Progress({ isRunning, remainingTime, totalTime }) {
 
   useEffect(() => {
     if (isRunning) {
-      Animated.timing(
-        widthAnim,
-        {
-          toValue: 1,
-          easing: Easing.linear,
-          duration: remainingTime,
-        }
-        ).start();
-      } else if (remainingTime === totalTime) {
-        Animated.timing(
-          widthAnim,
-          {
-            toValue: 0,
-            easing: Easing.linear,
-            duration: 500,
-          }
-          ).start();
-      } else {
-        Animated.timing(
-          widthAnim,
-          {
-            toValue: (totalTime - remainingTime) / totalTime || 0,
-            easing: Easing.linear,
-            duration: 500,
-          }
-      ).start();
+      Animated.timing(widthAnim, {
+        toValue: 1,
+        easing: Easing.linear,
+        duration: remainingTime,
+      }).start();
+    } else if (remainingTime === totalTime) {
+      Animated.timing(widthAnim, {
+        toValue: 0,
+        easing: Easing.linear,
+        duration: 500,
+      }).start();
+    } else {
+      Animated.timing(widthAnim, {
+        toValue: (totalTime - remainingTime) / totalTime || 0,
+        easing: Easing.linear,
+        duration: 500,
+      }).start();
     }
     if (!isRunning && totalTime === remainingTime) {
-      Animated.timing(
-        widthAnim,
-        {
-          toValue: 0,
-          easing: Easing.linear,
-          duration: 500,
-        }
-      ).start();
+      Animated.timing(widthAnim, {
+        toValue: 0,
+        easing: Easing.linear,
+        duration: 500,
+      }).start();
     }
   }, [isRunning, remainingTime]);
 
@@ -55,12 +44,12 @@ export default function Progress({ isRunning, remainingTime, totalTime }) {
             width: widthAnim.interpolate({
               inputRange: [0, 1],
               outputRange: ['0%', '100%'],
-            })
+            }),
           }}
         />
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -84,5 +73,5 @@ const styles = StyleSheet.create({
     shadowColor: 'rgb(49, 66, 72)',
     shadowOpacity: 0.25,
     shadowRadius: 10,
-  }
+  },
 });

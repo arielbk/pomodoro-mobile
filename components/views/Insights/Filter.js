@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
-  ScrollView,
   View,
   Text,
   TouchableOpacity,

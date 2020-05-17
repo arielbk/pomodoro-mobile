@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, SafeAreaView, TouchableOpacity, Text } from 'react-native';
 import { differenceInDays, subDays, isWithinInterval, isEqual } from 'date-fns';
 import { scaleTime } from 'd3-scale';
@@ -15,7 +15,7 @@ export default function Insights({ navigation }) {
   const interval = { start: subDays(new Date(), days), end: new Date() };
   const selectedLogs = pomodoroLog.filter(
     (log) =>
-      (isWithinInterval(log.timeCompleted, interval) && !project) ||
+      (isWithinInterval(new Date(log.timeCompleted), interval) && !project) ||
       log.project === project
   );
 

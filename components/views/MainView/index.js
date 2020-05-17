@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Audio } from 'expo-av';
-import {SettingsContext} from '../../utilities/SettingsContext'
-import {ProjectsContext} from '../../utilities/ProjectsContext'
-import {LogsContext} from '../../utilities/LogsContext';
+import { SettingsContext } from '../../utilities/SettingsContext';
+import { ProjectsContext } from '../../utilities/ProjectsContext';
+import { LogsContext } from '../../utilities/LogsContext';
 
 import usePomodoroTimer from '../../utilities/usePomodoroTimer';
 
@@ -13,7 +13,7 @@ import Footer from './Footer';
 const endSound = new Audio.Sound();
 endSound.loadAsync(require('../../../assets/sounds/levelup.mp3'));
 
-export default function MainView({navigation}) {
+export default function MainView({ navigation }) {
   const settings = useContext(SettingsContext);
   const { selectedProject } = useContext(ProjectsContext);
   const { pomodoroCount, addPomodoroLog } = useContext(LogsContext);
@@ -27,7 +27,7 @@ export default function MainView({navigation}) {
           timeCompleted: Date.now(),
           project: selectedProject,
           length: settings.focusSpan,
-        })
+        });
       }
       // play finishing sound
       try {

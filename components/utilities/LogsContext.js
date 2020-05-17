@@ -107,7 +107,9 @@ export const LogsProvider = ({ children }) => {
   // if logs change
   useEffect(() => {
     // calculate the new pomodoro count
-    setPomodoroCount(logs.filter((log) => isToday(log.timeCompleted)).length);
+    setPomodoroCount(
+      logs.filter((log) => isToday(new Date(log.timeCompleted))).length
+    );
     // save the logs to async storage
     AsyncStorage.setItem('pomodoroLogs', JSON.stringify(logs));
   }, [logs.length]);
