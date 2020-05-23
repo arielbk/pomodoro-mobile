@@ -16,6 +16,7 @@ import Settings from './components/views/Settings';
 import { SettingsProvider } from './components/utilities/SettingsContext';
 import { ProjectsProvider } from './components/utilities/ProjectsContext';
 import { LogsProvider } from './components/utilities/LogsContext';
+import { NotificationProvider } from './components/utilities/NotificationContext';
 
 const InsightsStack = createStackNavigator();
 
@@ -140,12 +141,14 @@ export default function App() {
     <SettingsProvider>
       <ProjectsProvider>
         <LogsProvider>
-          <NavigationContainer>
-            <Stack.Navigator headerMode="none">
-              <Stack.Screen name="App" component={AppDrawer} />
-              <Stack.Screen name="Projects" component={Projects} />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <NotificationProvider>
+            <NavigationContainer>
+              <Stack.Navigator headerMode="none">
+                <Stack.Screen name="App" component={AppDrawer} />
+                <Stack.Screen name="Projects" component={Projects} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </NotificationProvider>
         </LogsProvider>
       </ProjectsProvider>
     </SettingsProvider>

@@ -4,9 +4,16 @@ import { differenceInDays, formatDistanceToNow } from 'date-fns';
 import PageTitle from '../../shared/PageTitle';
 import LogItem from './LogItem';
 import { LogsContext } from '../../utilities/LogsContext';
+import { NotificationContext } from '../../utilities/NotificationContext';
 
 export default ({ navigation }) => {
   const { pomodoroLog } = useContext(LogsContext);
+  const { sendNotification } = useContext(NotificationContext);
+
+  sendNotification({
+    title: 'log',
+    body: 'notification sent from logs screen',
+  });
 
   const sectionLog = [];
 

@@ -19,6 +19,7 @@ export default function MainView({ navigation }) {
   const { pomodoroCount, addPomodoroLog } = useContext(LogsContext);
   const timer = usePomodoroTimer(settings);
 
+  // todo: these effects could go directly into the timer hook
   useEffect(() => {
     if (timer.isFinished) {
       // if focus period has just finished
