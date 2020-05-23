@@ -16,9 +16,21 @@ const defaultNotification = {
 const sendNotification = (notification) => {
   Notifications.presentLocalNotificationAsync({
     ...defaultNotification,
-    notification,
+    ...notification,
   });
 };
+
+const sendScheduledNotification = (notification, time) => {
+  Notifications.scheduleLocalNotificationAsync(
+    { ...defaultNotification, ...notification },
+    { time }
+  );
+};
+
+const cancelNotifications = () => {
+  Notifications.cancelAllScheduledNotificationsAsync();
+};
+
 const handleNotification = (notification) => {
   Vibration.vibrate();
   console.log('Received a notification:', notification);
@@ -53,6 +65,8 @@ export const NotificationProvider = ({ children }) => {
     <NotificationContext.Provider
       value={{
         sendNotification,
+        sendScheduledNotification,
+        cancelNotifications,
       }}
     >
       {children}

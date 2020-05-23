@@ -1,9 +1,13 @@
 import { useReducer, useEffect, useRef, useContext } from 'react';
 import reducer, { initialState } from './reducer';
 import { SettingsContext } from '../SettingsContext';
+import { NotificationContext } from '../NotificationContext';
 
 const usePomodoroTimer = () => {
   const { focusSpan, breakSpan, longBreakSpan } = useContext(SettingsContext);
+  const { sendScheduledNotification, cancelNotifications } = useContext(
+    NotificationContext
+  );
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     focusSpan,
@@ -15,6 +19,7 @@ const usePomodoroTimer = () => {
 
   useEffect(() => {
     if (state.isRunning) {
+      // set timer every interval
       interval.current = setInterval(() => {
         const timeElapsed = new Date().getTime() - state.startTime;
         dispatch({
@@ -22,8 +27,19 @@ const usePomodoroTimer = () => {
           payload: state.remainingTime - timeElapsed,
         });
       }, 30);
+      // send notification on timer end
+      const title = 'Timer ended';
+      let body;
+      if (state.currentMode === 'break' || state.currentMode === 'longBreak')
+        body = 'Time to focus!';
+      if (state.currentMode === 'focus') body = 'Time for a break!';
+      sendScheduledNotification(
+        { title, body },
+        Date.now() + state.remainingTime
+      );
     } else {
       clearInterval(interval.current);
+      cancelNotifications();
     }
   }, [state.isRunning]);
 
