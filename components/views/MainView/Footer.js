@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SettingsContext } from '../../utilities/SettingsContext';
+import { LogsContext } from '../../utilities/LogsContext';
 
 const screen = Dimensions.get('window');
 
-const Footer = ({ timer, pomodoroCount }) => {
+const Footer = ({ timer }) => {
+  const { pomodoroCount } = useContext(LogsContext);
   const { dailyGoal } = useContext(SettingsContext);
   return (
     <View style={styles.footerContent}>
