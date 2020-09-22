@@ -20,6 +20,7 @@ function InsightsFilter({ navigation }) {
     <View>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Insight Filters</Text>
+        <Text style={styles.subtitle}>Timer period:</Text>
         <Picker
           selectedValue={days}
           onValueChange={(val) => setDays(val)}
@@ -29,6 +30,7 @@ function InsightsFilter({ navigation }) {
           <Picker.Item label="Last 2 weeks" value={14} />
           <Picker.Item label="Last month" value={30} />
         </Picker>
+        <Text style={styles.subtitle}>Project:</Text>
         <Picker
           selectedValue={project}
           onValueChange={(val) => setProject(val)}
@@ -50,6 +52,7 @@ function InsightsFilter({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    justifyContent: 'space-between',
     height: screen.height - 80,
     marginTop: 80,
   },
@@ -58,13 +61,19 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '500',
   },
+  subtitle: {
+    color: '#676767',
+    marginTop: 60,
+    fontSize: 18,
+    fontWeight: '500',
+  },
   picker: {
-    height: 150,
+    height: 180,
     width: 200,
-    marginVertical: 30,
+    marginBottom: 30,
   },
   confirmText: {
-    marginTop: 100,
+    marginBottom: 40,
     fontSize: 21,
     textDecorationLine: 'underline',
   },

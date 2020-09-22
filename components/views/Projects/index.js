@@ -38,16 +38,14 @@ export default function Projects({ navigation }) {
         )}
         keyExtractor={(item) => item}
         ListHeaderComponent={
-          <>
-            <ProjectInput addProject={addProject} />
-            <Project
-              title="No project"
-              isSelected={selectedProject === null}
-              setSelected={() => setSelectedProject(null)}
-              removeProject={removeProject}
-            />
-          </>
+          <Project
+            title="No project"
+            isSelected={selectedProject === null}
+            setSelected={() => setSelectedProject(null)}
+            removeProject={removeProject}
+          />
         }
+        ListFooterComponent={<ProjectInput addProject={addProject} />}
       />
     </KeyboardAvoidingView>
   );
