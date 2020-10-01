@@ -66,9 +66,9 @@ const usePomodoroTimer = () => {
       const determineNotification = (currentState) => {
         switch (currentState) {
           case 'focus':
-            return { title: 'Focus timer ended', body: 'Time to focus' };
+            return { title: 'Focus timer ended', body: 'Time to take a break' };
           case 'break':
-            return { title: 'Break timer ended', body: 'Time for a breaker' };
+            return { title: 'Break timer ended', body: 'Time fto focus' };
           case 'longBreak':
             return { title: 'Long break timer ended', body: 'Time to focus' };
           default:
@@ -77,7 +77,7 @@ const usePomodoroTimer = () => {
       };
       sendScheduledNotification(
         determineNotification(state.currentMode),
-        Date.now() + state.remainingTime
+        state.remainingTime
       );
     } else {
       clearInterval(interval.current);
