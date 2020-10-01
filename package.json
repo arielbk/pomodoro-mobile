@@ -20,6 +20,7 @@
     "expo": "^39.0.3",
     "expo-av": "~8.6.0",
     "expo-constants": "~9.2.0",
+    "expo-notifications": "~0.7.2",
     "expo-permissions": "~9.3.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
