@@ -1,9 +1,13 @@
 import React, { createContext, useEffect, useRef } from 'react';
 
-import { Platform, Vibration } from 'react-native';
+import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
+import { Audio } from 'expo-av';
+
+const endSound = new Audio.Sound();
+endSound.loadAsync(require('../../assets/sounds/levelup.mp3'));
 
 export const NotificationContext = createContext();
 
@@ -65,7 +69,12 @@ export const NotificationProvider = ({ children }) => {
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       console.log(notification);
-      // todo: play sound that the timer is complete
+      // play finishing sound
+      try {
+        endSound.replayAsync();
+      } catch (error) {
+        console.error(error);
+      }
     });
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {

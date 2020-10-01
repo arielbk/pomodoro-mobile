@@ -24,8 +24,8 @@ const Content = ({ timer, navigation }) => {
           <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
             <Ionicons
               name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-              color="#d9d9d9"
-              size={40}
+              color="#adadad"
+              size={32}
             />
           </TouchableOpacity>
         </View>

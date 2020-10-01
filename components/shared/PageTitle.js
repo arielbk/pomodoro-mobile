@@ -18,7 +18,7 @@ export default function PageTitle({ handleBack, title, isNested }) {
     icon = (
       <Ionicons
         name={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-        color="#d9d9d9"
+        color="#adadad"
         size={28}
       />
     );
@@ -26,8 +26,8 @@ export default function PageTitle({ handleBack, title, isNested }) {
     icon = (
       <Ionicons
         name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-        color="#d9d9d9"
-        size={28}
+        color="#adadad"
+        size={32}
       />
     );
   }

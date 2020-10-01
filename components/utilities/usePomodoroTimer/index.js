@@ -1,13 +1,9 @@
 import { useReducer, useEffect, useRef, useContext } from 'react';
-import { Audio } from 'expo-av';
 import reducer, { initialState } from './reducer';
 import { SettingsContext } from '../SettingsContext';
 import { NotificationContext } from '../NotificationContext';
 import { LogsContext } from '../LogsContext';
 import { ProjectsContext } from '../ProjectsContext';
-
-const endSound = new Audio.Sound();
-endSound.loadAsync(require('../../../assets/sounds/levelup.mp3'));
 
 const usePomodoroTimer = () => {
   const { focusSpan, breakSpan, longBreakSpan, longBreakEvery } = useContext(
@@ -105,12 +101,6 @@ const usePomodoroTimer = () => {
           project: selectedProject,
           length: focusSpan,
         });
-      }
-      // play finishing sound
-      try {
-        endSound.replayAsync();
-      } catch (error) {
-        console.error(error);
       }
     }
   }, [state.isFinished]);

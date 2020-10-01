@@ -12,18 +12,21 @@ export default function Progress({ isRunning, remainingTime, totalTime }) {
         toValue: 1,
         easing: Easing.linear,
         duration: remainingTime,
+        useNativeDriver: true,
       }).start();
     } else if (remainingTime === totalTime) {
       Animated.timing(widthAnim, {
         toValue: 0,
         easing: Easing.linear,
         duration: 500,
+        useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(widthAnim, {
         toValue: (totalTime - remainingTime) / totalTime || 0,
         easing: Easing.linear,
         duration: 500,
+        useNativeDriver: true,
       }).start();
     }
     if (!isRunning && totalTime === remainingTime) {
@@ -31,9 +34,10 @@ export default function Progress({ isRunning, remainingTime, totalTime }) {
         toValue: 0,
         easing: Easing.linear,
         duration: 500,
+        useNativeDriver: true,
       }).start();
     }
-  }, [isRunning, remainingTime]);
+  }, [isRunning]);
 
   return (
     <View style={styles.container}>
@@ -41,10 +45,12 @@ export default function Progress({ isRunning, remainingTime, totalTime }) {
         <Animated.View
           style={{
             ...styles.innerBar,
-            width: widthAnim.interpolate({
+            transform: [{
+              translateX: widthAnim.interpolate({
               inputRange: [0, 1],
-              outputRange: ['0%', '100%'],
-            }),
+              outputRange: [-screen.width + 80, 0],
+            })
+            }]
           }}
         />
       </View>
@@ -63,6 +69,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#d9d9d9',
     height: 16,
     width: screen.width - 80,
+    position: 'relative',
+    overflow: 'hidden',
   },
   innerBar: {
     height: 16,
