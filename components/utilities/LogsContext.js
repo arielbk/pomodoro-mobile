@@ -112,7 +112,7 @@ export const LogsProvider = ({ children }) => {
     );
     // save the logs to async storage
     AsyncStorage.setItem('pomodoroLogs', JSON.stringify(logs));
-  }, [logs.length]);
+  }, [logs?.length]);
 
   const addPomodoroLog = (log) => setLogs((prev) => [...prev, log]);
 
